@@ -1,0 +1,1070 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily Reformer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#ECEFF1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1013" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Daily Reformer">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* Layout: a bright Pilates studio. Cool porcelain ground, graphite ink, maple wood and dark upholstery for the machine,
+   spring red as the single accent, a calm blue for the breath. Card edges carry a vertical category label. */
+:root{
+  --paper:#ECEFF1; --surface:#F8FAFB; --sunk:#E0E5E9; --ink:#15191D; --muted:#58626B; --line:#CBD3D9;
+  --saffron:#B8392C; --saffron-soft:#F5DCD8; --on-accent:#FFF7F5; --jade:#2A6C8E; --jade-soft:rgba(42,108,142,.16); --breath:rgba(42,108,142,.42); --breath-2:rgba(42,108,142,.17);
+  --seal:#B8392C; --scrim:rgba(14,18,22,.5); --wood:#C39A6B; --pad:#3B434C;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0D1013; --surface:#151A1F; --sunk:#1B2228; --ink:#E5E9ED; --muted:#949FA9; --line:#29313A;
+  --saffron:#EC6A59; --saffron-soft:#3A1E1A; --on-accent:#1A0A08; --jade:#6CB0D4; --jade-soft:rgba(108,176,212,.16); --breath:rgba(108,176,212,.44); --breath-2:rgba(108,176,212,.15);
+  --seal:#EC6A59; --scrim:rgba(0,0,0,.6); --wood:#8E6C49; --pad:#5D6772; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0D1013; --surface:#151A1F; --sunk:#1B2228; --ink:#E5E9ED; --muted:#949FA9; --line:#29313A;
+  --saffron:#EC6A59; --saffron-soft:#3A1E1A; --on-accent:#1A0A08; --jade:#6CB0D4; --jade-soft:rgba(108,176,212,.16); --breath:rgba(108,176,212,.44); --breath-2:rgba(108,176,212,.15);
+  --seal:#EC6A59; --scrim:rgba(0,0,0,.6); --wood:#8E6C49; --pad:#5D6772; color-scheme:dark;
+}
+[hidden]{display:none!important}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--saffron);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;text-wrap:balance;margin:0;line-height:1.15}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px;display:grid;gap:44px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.seal{width:38px;height:38px;border-radius:10px;background:var(--seal);color:var(--on-accent);display:grid;place-items:center}
+.seal svg{width:24px;height:24px}
+.brand h1{font-size:24px}
+.brand small{display:block;font-size:12px;color:var(--muted);letter-spacing:.06em}
+.toggles{display:flex;gap:8px;flex-wrap:wrap}
+.tog{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:13px;color:var(--muted)}
+.tog[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.tog svg{width:16px;height:16px}
+.tog.install{color:var(--saffron);border-color:var(--saffron);font-weight:700}
+.steps{margin:0;padding-left:20px;display:grid;gap:10px}
+.steps svg{width:18px;height:18px;vertical-align:-3px;color:var(--saffron)}
+
+/* today */
+.today{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);overflow:hidden}
+.hero-fig{background:var(--sunk);min-height:260px;position:relative}
+.hero-fig canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-body{padding:26px 26px 24px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.hero-body h2{font-size:clamp(28px,3.4vw,40px)}
+.hero-hz{font-family:var(--f-display);color:var(--saffron);font-size:13px;font-weight:600;letter-spacing:.14em}
+.meta{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:700}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;font-weight:700;font-size:15px;background:var(--saffron);color:var(--on-accent);transition:transform .15s ease,filter .15s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn svg{width:18px;height:18px}
+.hero-actions{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+
+.log{background:transparent;border:1px solid var(--line);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.streak{display:flex;align-items:baseline;gap:10px}
+.streak .big{font-family:var(--f-display);font-size:52px;font-weight:800;line-height:1}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:11px;color:var(--muted)}
+.day{display:grid;gap:6px;justify-items:center}
+.dot{width:100%;max-width:34px;aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:10px;color:var(--muted)}
+.dot.on{background:var(--saffron);border-color:var(--saffron);color:var(--on-accent);font-weight:700}
+.dot.is-today{border-color:var(--ink);color:var(--ink);font-weight:700}
+.dot.on.is-today{color:var(--on-accent)}
+.day .mark{font-family:var(--f-display);color:var(--saffron);font-size:12px;font-weight:700;line-height:1}
+.log-foot{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;gap:8px;flex-wrap:wrap}
+
+/* sections */
+.sec{display:grid;gap:18px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
+.sec-head h2{font-size:28px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 13px;font-size:13px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.routines{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.rcard{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 14px 14px 18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;transition:border-color .2s,transform .2s}
+.rcard:hover{border-color:var(--muted);transform:translateY(-2px)}
+.rcard h3{font-size:20px}
+.rcard .vhz{grid-row:1 / span 3;grid-column:2;writing-mode:vertical-rl;font-family:var(--f-display);font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--saffron);border-left:1px solid var(--line);padding-left:10px}
+.rcard .dur{font-family:var(--f-display);font-size:30px;font-weight:800;line-height:1.1}
+.rcard .dur span{font-size:14px;font-weight:500;color:var(--muted);margin-left:4px}
+.rcard p{margin:0;color:var(--muted);font-size:13.5px}
+.strip{grid-column:1 / -1;display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.strip canvas{width:100%;aspect-ratio:1;max-width:100%}
+
+/* compose */
+.compose{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px}
+.field{display:grid;gap:10px}
+.field label{font-weight:700}
+.minutes{font-family:var(--f-display);font-size:56px;font-weight:800;line-height:1}
+.minutes span{font-size:18px;color:var(--muted);font-weight:500}
+input[type=range]{width:100%;accent-color:var(--saffron);height:28px}
+.scale{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.plan li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+.plan canvas{width:44px;height:44px}
+.plan .nm{font-weight:500;min-width:0}
+.plan .nm small{display:block;color:var(--muted);font-size:12px}
+.plan .s{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}
+.len{gap:6px;padding:12px 0 4px;border-top:1px solid var(--line)}
+.len .scale{align-items:center}
+.plan-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap}
+
+/* library */
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
+.mcard{background:transparent;border:1px solid var(--line);border-radius:14px;padding:10px 10px 12px;text-align:left;display:grid;gap:6px;transition:background .2s,border-color .2s}
+.mcard:hover{background:var(--surface);border-color:var(--muted)}
+.mcard canvas{width:100%;aspect-ratio:1.15;max-width:100%;background:var(--sunk);border-radius:10px}
+.mcard b{font-weight:700;font-size:14px;line-height:1.3}
+.mcard small{color:var(--muted);font-size:12px}
+.mcard .hzs{color:var(--saffron);font-size:12px;font-weight:700}
+
+.saying{margin:4px 0;padding:14px 0 2px;border-top:1px solid var(--line);display:grid;gap:4px}
+.saying blockquote{margin:0;font-family:var(--f-display);font-size:22px;font-weight:700;color:var(--saffron);letter-spacing:.08em}
+.saying figcaption{font-size:14px;color:var(--ink)}
+.saying small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.note{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;display:flex;gap:10px;align-items:flex-start;max-width:75ch}
+
+/* sheet */
+.sheet{position:fixed;inset:0;z-index:40;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.panel{background:var(--surface);border-radius:22px;width:min(760px,100%);max-height:100%;overflow:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+.panel .pfig{background:var(--sunk);position:relative;min-height:300px}
+.panel .pfig canvas{position:absolute;inset:0;width:100%;height:100%}
+.panel .pbody{padding:24px;display:grid;gap:12px;align-content:start;min-width:0}
+.panel h2{font-size:28px}
+.panel .x{justify-self:end;border:0;background:transparent;padding:4px;color:var(--muted)}
+.panel ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.panel p{margin:0}
+.panel.list{grid-template-columns:1fr}
+
+/* player */
+.player{position:fixed;inset:0;z-index:60;background:var(--paper);display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.pl-top{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.pl-title{flex:1;min-width:0}
+.pl-title b{font-family:var(--f-display);font-size:18px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-title span{font-size:13px}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:transparent;display:grid;place-items:center;flex:none}
+.icon-btn svg{width:20px;height:20px}
+.icon-btn[aria-pressed="false"]{color:var(--muted)}
+.pl-bar{display:flex;gap:3px;padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));height:5px}
+.pl-bar div{background:var(--line);border-radius:3px;overflow:hidden;min-width:3px}
+.pl-bar i{display:block;height:100%;background:var(--saffron);width:0}
+.pl-main{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);min-height:0}
+.pl-stage{position:relative;min-height:0}
+.pl-stage canvas{position:absolute;inset:0;width:100%;height:100%}
+.pl-phase{position:absolute;left:50%;top:18px;transform:translateX(-50%);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--saffron);background:var(--saffron-soft);padding:5px 12px;border-radius:999px;white-space:nowrap}
+.pl-info{padding:28px max(16px,env(safe-area-inset-right,0px)) 24px 28px;display:flex;flex-direction:column;gap:14px;min-width:0;overflow:auto}
+.pl-step{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.pl-info h2{font-size:clamp(28px,3.6vw,44px);min-height:2.3em;display:flex;align-items:flex-end} /* room for two lines, so a short name doesn't pull everything up */
+.pl-hz{font-family:var(--f-display);color:var(--saffron);font-size:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:baseline}
+.pl-hz small{font-family:var(--f-body);color:var(--muted);font-size:13px;letter-spacing:.02em}
+.pl-row{display:flex;align-items:center;gap:22px}
+.pl-time{font-family:var(--f-display);font-size:clamp(56px,8vw,88px);font-weight:800;line-height:1;font-variant-numeric:tabular-nums;font-feature-settings:"tnum";width:3.15em;flex:none;white-space:nowrap}
+.breath{display:flex;align-items:center;gap:12px}
+.breath{min-width:0;flex:1}
+.breath>div:last-child{min-width:6.5em}
+.orb-wrap{width:60px;height:60px;flex:none;display:grid;place-items:center;border-radius:50%;border:1px dashed var(--jade)}
+.orb{width:52px;height:52px;border-radius:50%;background:var(--jade-soft);border:2px solid var(--jade);transform:scale(.6);transform-origin:50% 50%}
+.breath b{display:block;color:var(--jade);font-size:17px}
+.breath span{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pl-cue{font-size:18px;line-height:1.5;margin:0;max-width:44ch;min-height:6em}
+.pl-cue::before{content:"";display:inline-block;width:18px;height:2px;background:var(--saffron);vertical-align:middle;margin-right:10px}
+/* the whole screen breathes: a jade glow that swells on the in-breath and fades on the out-breath */
+.pl-glow{position:absolute;inset:-12%;z-index:0;pointer-events:none;background:radial-gradient(circle at var(--gx,30%) var(--gy,52%),var(--breath) 0,var(--breath-2) 42%,transparent 82%);opacity:.3;transform-origin:var(--gx,30%) var(--gy,52%);will-change:transform,opacity}
+.player>:not(.pl-glow):not(.pl-done){position:relative;z-index:1}
+.player{overflow:hidden;overflow:clip} /* clip the glow without making the player scrollable */
+.pl-upnext{position:absolute;right:16px;bottom:16px;width:min(250px,72%);display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 14px 8px 8px;max-width:min(270px,72%);transition:border-color .3s,transform .3s}
+.pl-stage .pl-upnext canvas{position:static;inset:auto;width:52px;height:52px;flex:none;background:var(--sunk);border-radius:10px}
+.pl-upnext div{min-width:0}
+.pl-upnext small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.pl-upnext b{display:block;font-size:15px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-upnext span{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pl-upnext.soon{border-color:var(--saffron);transform:translateY(-4px)}
+.pl-upnext.soon small,.pl-upnext.soon span{color:var(--saffron)}
+.pl-controls{display:flex;gap:16px;align-items:center;margin-top:auto;padding-top:6px}
+.ctl{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center}
+.ctl svg{width:22px;height:22px}
+.ctl.main{width:74px;height:74px;background:var(--saffron);border:0;color:var(--on-accent)}
+.ctl.main svg{width:30px;height:30px}
+.kbd{font-size:12px;color:var(--muted)}
+.pl-done{position:absolute;inset:0;z-index:3;background:var(--paper);display:grid;place-items:center;text-align:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+.pl-done .in{display:grid;gap:14px;justify-items:center;max-width:440px}
+.pl-done .seal{width:64px;height:64px}
+.pl-done .seal svg{width:40px;height:40px}
+.pl-done h2{font-size:40px}
+.done-stats{display:flex;gap:28px;justify-content:center}
+.done-stats div{display:grid}
+.done-stats b{font-family:var(--f-display);font-size:34px;line-height:1.1}
+.done-stats span{font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+@media (max-width:860px){
+  .today{grid-template-columns:1fr}
+  .compose{grid-template-columns:1fr}
+  /* phone player: one screen, no scrolling. The figure takes whatever height is left;
+     the text below sits in fixed-size rows so nothing moves as it changes. */
+  .pl-glow{--gx:50%;--gy:30%}
+  .pl-top{padding-top:8px;padding-bottom:6px;gap:8px}
+  .pl-top .icon-btn{width:38px;height:38px}
+  .pl-main{grid-template-columns:1fr;grid-template-rows:minmax(150px,1fr) auto;overflow:hidden}
+  .pl-phase{top:8px;font-size:11px;padding:4px 10px}
+  .pl-stage canvas{height:calc(100% - 50px)} /* the figure draws above the up-next strip */
+  .pl-upnext{left:16px;right:16px;bottom:4px;width:auto;max-width:none;padding:4px 12px 4px 4px;gap:8px}
+  .pl-stage .pl-upnext canvas{width:38px;height:38px;border-radius:8px}
+  .pl-upnext div{display:flex;align-items:baseline;gap:8px;min-width:0;flex:1}
+  .pl-upnext small{display:inline;flex:none}
+  .pl-upnext b{flex:1;min-width:0;font-size:14px}
+  .pl-upnext span{flex:none}
+  .pl-info{padding:6px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));gap:6px;overflow:hidden}
+  .pl-step{font-size:11px}
+  .pl-info h2{font-size:clamp(22px,6.4vw,30px);min-height:0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pl-hz{font-size:14px;white-space:nowrap;overflow:hidden}
+  .pl-time{font-size:clamp(44px,13vw,60px)}
+  .pl-row{gap:14px}
+  .breath{gap:10px}
+  .breath>div:last-child{min-width:5.2em}
+  .orb-wrap{width:52px;height:52px}
+  .orb{width:44px;height:44px}
+  .pl-cue{font-size:16px;line-height:1.45;height:4.35em;min-height:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+  .pl-cue::before{width:14px;margin-right:8px}
+  .pl-controls{margin-top:2px;padding-top:0;gap:18px;justify-content:center}
+  .ctl{width:48px;height:48px}
+  .ctl.main{width:64px;height:64px}
+  .kbd{display:none}
+}
+@media (max-width:560px){
+  .hero{grid-template-columns:1fr}
+  .hero-fig{min-height:220px}
+  .panel{grid-template-columns:1fr}
+  .panel .pfig{min-height:230px}
+  .pl-controls{justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.pl-upnext.soon{transform:none}}
+</style>
+
+<div class="wrap" id="home">
+  <header class="top">
+    <div class="brand">
+      <div class="seal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2l1.5-4 2 8 2-8 2 8 2-8 2 8 1.5-4h2"/></svg></div>
+      <div><h1>Daily Reformer</h1><small>Pilates on the Reformer · a new workout every day</small></div>
+    </div>
+    <div class="toggles">
+      <button class="tog install" id="tInstall" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19h14"/></svg>Install app</button>
+      <button class="tog" id="tSprings" type="button">Springs: levels</button>
+      <button class="tog" id="tVoice" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>Voice coach</button>
+      <button class="tog" id="tBreath" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9h10a3 3 0 1 0-3-3"/><path d="M3 14h15a3 3 0 1 1-3 3"/></svg>Breath coach</button>
+      <button class="tog" id="tBell" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 0 0 16 0z"/><path d="M12 4v3"/><path d="M7 20h10"/></svg>Chime</button>
+    </div>
+  </header>
+
+  <section class="today" aria-label="Today">
+    <article class="hero">
+      <div class="hero-fig"><canvas id="heroCanvas" aria-label="Animated figure demonstrating the featured exercise on the Reformer"></canvas></div>
+      <div class="hero-body">
+        <div class="eyebrow" id="greet">Today's practice</div>
+        <h2 id="heroName">Dawn Awakening</h2>
+        <div class="hero-hz" id="heroHz"></div>
+        <p class="muted" id="heroDesc" style="margin:0"></p>
+        <div class="meta" id="heroMeta"></div>
+        <div class="chips" id="dailyLen" role="group" aria-label="Length of today's practice"></div>
+        <div class="hero-actions">
+          <button class="btn" id="heroGo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Begin practice</button>
+          <button class="btn ghost" id="heroView">See the sequence</button>
+        </div>
+      </div>
+    </article>
+    <aside class="log" aria-label="Your practice this week">
+      <div class="eyebrow">This week</div>
+      <div class="streak"><span class="big num" id="streakN">0</span><span class="muted" id="streakL">day streak</span></div>
+      <div class="week" id="week"></div>
+      <div class="log-foot"><span id="weekMin">0 min this week</span><span id="allMin">0 sessions total</span></div>
+    </aside>
+  </section>
+
+  <section class="sec" aria-labelledby="rTitle">
+    <div class="sec-head">
+      <div><h2 id="rTitle">Routines</h2><p>Guided Reformer workouts, from classical footwork to standing work. Every one shows its spring settings and can be scaled to the time you have.</p></div>
+      <div class="chips" id="durChips" role="group" aria-label="Filter by length"></div>
+    </div>
+    <div class="routines" id="routines"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="cTitle">
+    <div class="sec-head"><div><h2 id="cTitle">Compose your own</h2><p>Pick how long you have and what to work on. The sequence always starts with breath and footwork and finishes with a stretch.</p></div></div>
+    <div class="compose">
+      <div class="field" style="align-content:start;gap:16px">
+        <div class="field">
+          <label for="cMin">Length</label>
+          <div class="minutes num" id="cMinOut">12<span> min</span></div>
+          <input type="range" id="cMin" min="5" max="30" step="1" value="12">
+          <div class="scale"><span>5</span><span>15</span><span>30</span></div>
+        </div>
+        <div class="field">
+          <label id="cFocusL">Focus</label>
+          <div class="chips" id="focusChips" role="group" aria-labelledby="cFocusL"></div>
+        </div>
+        <div><button class="btn" id="cGo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Begin this sequence</button></div>
+      </div>
+      <div style="min-width:0">
+        <div class="plan-head"><b id="cPlanTitle">Sequence</b><span class="muted num" id="cPlanMeta"></span></div>
+        <ol class="plan" id="cPlan"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lTitle">
+    <div class="sec-head">
+      <div><h2 id="lTitle">Exercise library</h2><p>Open any exercise to watch it on the Reformer, read the setup and cues, and see its spring setting.</p></div>
+      <div class="chips" id="tagChips" role="group" aria-label="Filter movements"></div>
+    </div>
+    <div class="lib" id="lib"></div>
+  </section>
+
+  <p class="note"><span aria-hidden="true">◦</span><span>Check the springs, footbar and headrest before each exercise, and never step on or off a moving carriage. Spring colors follow Balanced Body; other brands differ, so go by resistance. Move within a comfortable range and stop if anything hurts. If you are new to the Reformer, pregnant, or managing an injury, learn with a qualified instructor first.</span></p>
+</div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="panel" id="panel"></div>
+</div>
+
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-label="Guided practice">
+  <div class="pl-glow" id="plGlow" aria-hidden="true"></div>
+  <div class="pl-top">
+    <button class="icon-btn" id="plClose" aria-label="End practice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="pl-title"><b id="plRoutine"></b><span class="muted num" id="plRemain"></span></div>
+    <button class="icon-btn" id="plVoice" aria-pressed="true" aria-label="Voice coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg></button>
+    <button class="icon-btn" id="plBreathBtn" aria-pressed="true" aria-label="Breath coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9h10a3 3 0 1 0-3-3"/><path d="M3 14h15a3 3 0 1 1-3 3"/></svg></button>
+    <button class="icon-btn" id="plBell" aria-pressed="true" aria-label="Chime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 0 0 16 0z"/><path d="M12 4v3"/><path d="M7 20h10"/></svg></button>
+  </div>
+  <div class="pl-bar" id="plBar"></div>
+  <div class="pl-main">
+    <div class="pl-stage"><canvas id="plCanvas" aria-hidden="true"></canvas><div class="pl-phase" id="plPhase">Get ready</div>
+      <div class="pl-upnext" id="plNextWrap" hidden><canvas id="plNextC" aria-hidden="true"></canvas><div><small id="plNextLabel">Up next</small><b id="plNext"></b><span class="num" id="plNextIn"></span></div></div></div>
+    <div class="pl-info">
+      <div class="pl-step num" id="plStep"></div>
+      <h2 id="plName"></h2>
+      <div class="pl-hz"><span id="plHz"></span><small id="plPy"></small></div>
+      <div class="pl-row">
+        <div class="pl-time" id="plTime" aria-live="off">0:00</div>
+        <div class="breath"><div class="orb-wrap"><div class="orb" id="plOrb"></div></div><div><b id="plBreath">Inhale</b><span class="num" id="plBreathN"></span></div></div>
+      </div>
+      <p class="pl-cue" id="plCue" aria-live="polite"></p>
+      <div class="pl-controls">
+        <button class="ctl" id="plPrev" aria-label="Previous exercise"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+        <button class="ctl main" id="plPlay" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor" id="plPlayIcon"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+        <button class="ctl" id="plNextBtn" aria-label="Next exercise"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+        <span class="kbd">Space pause · ← → skip · Esc end</span>
+      </div>
+    </div>
+  </div>
+  <div class="pl-done" id="plDone" hidden>
+    <div class="in">
+      <div class="seal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2l1.5-4 2 8 2-8 2 8 2-8 2 8 1.5-4h2"/></svg></div>
+      <h2>Practice complete</h2>
+      <p class="muted" style="margin:0" id="doneMsg">Take one more breath. Notice how your body and mind feel now, compared to when you began.</p>
+      <div id="doneSaying"></div>
+      <div class="done-stats"><div><b class="num" id="doneMin">0</b><span>minutes</span></div><div><b class="num" id="doneStreak">0</b><span>day streak</span></div></div>
+      <button class="btn" id="doneBtn">Return home</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(()=>{
+"use strict";
+/* ---------------- storage (per-viewer convenience) ---------------- */
+const store={get(k,d){try{const v=localStorage.getItem("dr."+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("dr."+k,JSON.stringify(v))}catch(e){}}};
+const settings=Object.assign({voice:true,bell:true,breath:true,springs:"level",lenFor:{}},store.get("settings",{}));
+const saveSettings=()=>store.set("settings",settings);
+
+/* ---------------- figure model ---------------- */
+const D=Math.PI/180;
+const LEN={torso:52,neck:7,head:11,ua:29,la:27,th:40,sh:40,hipW:9,shW:16};
+const FRONT={hx:0,hy:80,torso:180,arch:0,neck:180,face:0,glow:0,px:1,suaL:1,slaL:1,suaR:1,slaR:1,uaL:-10,laL:-6,uaR:10,laR:6,fL:[-11,0],fR:[11,0],kL:[-1,.15],kR:[1,.15]};
+const SIDE={hx:0,hy:80,torso:180,arch:0,neck:180,face:1,glow:0,px:1,suaL:1,slaL:1,suaR:1,slaR:1,uaL:-4,laL:4,uaR:4,laR:10,fL:[-3,0],fR:[3,0],kL:[1,.1],kR:[1,.1],
+ car:0,hc:1,fcL:1,fcR:1,hL:null,hR:null,hcL:0,hcR:0,ehL:[0,1],ehR:[0,1],ftL:null,ftR:null,strap:"",flip:0,fx:0}; /* Reformer defaults: body rides the carriage */
+const HIPS_F={uaL:-40,laL:50,uaR:40,laR:-50};
+const CHAMBER={uaL:-30,laL:25,uaR:30,laR:-25};
+const BELLY={uaL:-20,laL:70,uaR:20,laR:-70};
+const HORSE={hy:54,fL:[-46,0],fR:[46,0]};
+const HIPS_S={uaL:-28,laL:62,uaR:-25,laR:65};
+const SEATED={hy:10,thL:-100,shL:88,thR:100,shR:-88,uaL:-15,laL:70,uaR:15,laR:-70,glow:.4}; /* cross-legged, hands in the lap */
+const BEHIND_R={uaR:30,laR:-60}; /* back of the right hand resting on the lower back */
+
+/* Moves. keys loop k0→k1→…→k0; beats[i] = seconds for transition i; breath[i] labels that transition. */
+/* ---------- the Reformer ----------
+   Side view: footbar and platform on the right, risers and pulleys on the left. Units match the figure (legs 80).
+   Pose extras: car = carriage travel toward the risers; hc / fcL / fcR = hips / feet ride on the carriage;
+   hL / hR = hand targets (solved with IK) and ehL / ehR = which way the elbows bend; ftL / ftR = foot angle;
+   strap = "hands" or "feet" in the straps; flip = the figure faces the risers (authored facing right, mirrored about fx). */
+const RF={top:30,bar:[112,62],pulley:[-121,79],carL:-34,carR:66};
+const SUP={hx:60,hy:39,torso:-90,neck:-86,uaL:92,laL:94,uaR:92,laR:94,kL:[0,1],kR:[0,1]}; /* lying on the back, head on the headrest */
+const ONBAR={fcL:0,fcR:0,fL:[103,57],fR:[104.5,57.5],ftL:122,ftR:122}; /* balls of the feet on the footbar */
+const TABLE={thL:182,shL:92,thR:178,shR:90}; /* legs in tabletop */
+const KNEEL={hx:46,hy:70,fL:[6,33],fR:[8,33],kL:[1,-.6],kR:[1,-.6]}; /* kneeling, feet against the shoulder blocks */
+const BAR={hL:[111,64],hR:[112.5,64]}; /* hands on the footbar */
+const BOX={x0:-26,x1:56,h:22};
+/* springs: [count, level]; H heavy, M medium, L light, X extra light */
+const MOVES=[
+{id:"breathing",name:"Lateral Breathing",fam:"Breath",view:"side",tags:["breath","warm"],springs:[[2,"H"]],
+ base:Object.assign({},SUP,ONBAR,{uaL:140,laL:32,uaR:136,laR:36}),keys:[{glow:.3},{glow:1}],beats:[3,4],breath:["in","out"],
+ setup:"Lie on your back with your head on the headrest and the balls of your feet on the footbar. Rest your hands on your lower ribs.",
+ cues:["Breathe in through the nose and feel the ribs widen into your hands, sideways and into your back.","Breathe out and feel the ribs soften and draw together as the belly gently draws in.","Keep the shoulders soft and the back of the neck long."],
+ about:"Lateral breathing is the Pilates breath. The ribs expand sideways while the deep abdominals stay gently engaged, so you can breathe fully and stay supported."},
+{id:"fw_toes",name:"Footwork: Toes",fam:"Footwork",view:"side",tags:["footwork","legs","warm"],springs:[[3,"H"]],
+ base:Object.assign({},SUP,ONBAR),keys:[{},{car:27}],beats:[4,3],breath:["out","in"],
+ setup:"Lie back with the balls of your feet on the footbar, heels lifted, legs together in a small V. Arms long by your sides.",
+ cues:["Breathe out and press the carriage out until the legs are long, without locking the knees.","Breathe in and control the carriage home. Resist the springs.","Keep the pelvis still and level. Only the legs move.","Heels stay lifted at the same height the whole time."],
+ about:"Footwork opens almost every Reformer session. It warms the legs, lines up the hips, knees and ankles, and teaches you to work against the springs with control."},
+{id:"fw_heels",name:"Footwork: Heels",fam:"Footwork",view:"side",tags:["footwork","legs","warm"],springs:[[3,"H"]],
+ base:Object.assign({},SUP,{fcL:0,fcR:0,fL:[110,66],fR:[111.5,66.5],ftL:172,ftR:172}),keys:[{},{car:24}],beats:[4,3],breath:["out","in"],
+ setup:"Place your heels on the footbar, feet flexed and hip width apart.",
+ cues:["Press out through the heels and feel the backs of the legs work.","Keep the toes pulled back toward you.","Return slowly. Let the carriage arrive without a bump."],
+ about:"Working through the heels shifts the effort into the hamstrings and glutes."},
+{id:"fw_raises",name:"Heel Lowers and Lifts",fam:"Footwork",view:"side",tags:["footwork","legs"],springs:[[3,"H"]],
+ base:Object.assign({},SUP,{fcL:0,fcR:0,car:25}),keys:[{fL:[100,59],fR:[101,59.5],ftL:105,ftR:105},{fL:[106,53],fR:[107,53.5],ftL:150,ftR:150,car:23}],beats:[1,1],breath:["flow","flow"],
+ setup:"Press out until the legs are long. Keep them still, lower the heels under the bar, then lift them high.",
+ cues:["Lower the heels for a calf stretch. Lift them for strength.","The carriage stays still. Only the ankles move.","Lift straight up through the big toe, without rolling to the outside."],
+ about:"Strengthens the calves and ankles and stretches the Achilles tendon."},
+{id:"fw_running",name:"Running in Place",fam:"Footwork",view:"side",tags:["footwork","legs"],springs:[[3,"H"]],
+ base:Object.assign({},SUP,{fcL:0,fcR:0,car:25}),keys:[{fL:[106,53],ftL:150,fR:[100,59.5],ftR:105},{fL:[100,59],ftL:105,fR:[106.5,53.5],ftR:150}],beats:[.9,.9],breath:["flow","flow"],
+ setup:"Legs long, balls of the feet on the bar. Lower one heel as the other lifts, like running in place.",
+ cues:["Keep the knees soft and the pelvis completely still.","Find a steady rhythm and let the breath stay easy.","Stretch deep into each lowering heel."],
+ about:"Also called prances. Warms the feet, ankles and calves and challenges pelvic stability."},
+{id:"bridge",name:"Bridge on the Footbar",fam:"Footwork",view:"side",tags:["spine","legs","warm"],springs:[[3,"H"]],
+ base:Object.assign({},SUP,ONBAR),keys:[{},{hy:57,torso:-70,neck:-96,uaL:86,laL:90,uaR:86,laR:90}],beats:[4,3],breath:["out","in"],
+ setup:"Feet on the footbar, knees bent. Curl the tailbone up and peel the spine off the carriage one bone at a time.",
+ cues:["Breathe out to curl up, from the tailbone to the shoulder blades.","Keep the carriage still. Press evenly through both feet.","Breathe in at the top, then breathe out and lay the spine down slowly."],
+ about:"A gentle spine articulation that also works the glutes and hamstrings."},
+{id:"hundred",name:"The Hundred",fam:"Supine abdominals",view:"side",tags:["core"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},SUP,TABLE,{neck:-125,torso:-88,strap:"hands",car:10}),keys:[{uaL:92,laL:94,uaR:92,laR:94},{uaL:102,laL:104,uaR:102,laR:104}],beats:[.45,.45],breath:["flow","flow"],
+ setup:"Hold the straps with the legs in tabletop. Curl the head and shoulders up and reach the arms long beside you.",
+ cues:["Pump the arms with small, firm beats.","Keep the pumps steady and let the breath follow the glow.","Keep the gaze on the belly and the neck relaxed.","Extend the legs on a diagonal only if the lower back stays down."],
+ about:"A classic Pilates warm-up for the abdominals, breath and circulation. The arms pump a hundred times in all."},
+{id:"frog",name:"Frog",fam:"Feet in straps",view:"side",tags:["legs","core"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},SUP,{strap:"feet",thL:165,shL:100,thR:162,shR:98}),keys:[{car:5},{thL:122,shL:122,thR:120,shR:120,car:18}],beats:[4,3],breath:["out","in"],
+ setup:"Feet in the straps, heels together and toes apart, knees bent wide.",
+ cues:["Breathe out and press the legs out on a diagonal, squeezing the inner thighs.","Breathe in and bend the knees back in with control.","Keep the tailbone heavy on the carriage."],
+ about:"Works the inner thighs and the backs of the legs while the core keeps the pelvis still."},
+{id:"circles",name:"Leg Circles",fam:"Feet in straps",view:"side",tags:["legs","core"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},SUP,{strap:"feet",thL:160,shL:160,thR:158,shR:158,car:8}),keys:[{},{thL:108,shL:108,thR:106,shR:106,car:20},{thL:130,shL:130,thR:128,shR:128,car:14}],beats:[3,2,2],breath:["in","out","out"],
+ setup:"Feet in the straps, legs long and reaching up toward the ceiling.",
+ cues:["Lower the legs together, open them, and circle back up.","Keep the circles no bigger than you can control with a still pelvis.","Reverse the direction halfway through."],
+ about:"Mobilizes the hip joints and challenges pelvic stability."},
+{id:"strapstretch",name:"Hamstring Stretch in Straps",fam:"Feet in straps",view:"side",tags:["stretch","legs"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},SUP,{strap:"feet",car:4}),keys:[{thL:172,shL:176,thR:170,shR:174},{thL:178,shL:182,thR:176,shR:180,car:2}],beats:[5,5],breath:["soft","soft"],
+ setup:"Feet in the straps, legs long. Let the straps draw your legs gently toward you.",
+ cues:["Keep both hips heavy on the carriage.","Soften the knees if the backs of the legs pull too much.","Breathe into the backs of the legs."],
+ about:"A supported stretch for the hamstrings and calves."},
+{id:"pulldown",name:"Arms Pull Down",fam:"Supine arms",view:"side",tags:["arms","back"],springs:[[1,"L"]],
+ base:Object.assign({},SUP,TABLE,{strap:"hands"}),keys:[{uaL:178,laL:178,uaR:176,laR:176,car:2},{uaL:96,laL:96,uaR:94,laR:94,car:16}],beats:[4,3],breath:["out","in"],
+ setup:"Lie back with the legs in tabletop. Hold the straps with the arms reaching up to the ceiling.",
+ cues:["Breathe out and press the arms down to your sides.","Keep the shoulders away from the ears as the arms lower.","Breathe in and let the arms float back up with control."],
+ about:"Strengthens the back of the shoulders and the lats while the core keeps you steady."},
+{id:"triceps",name:"Triceps Press",fam:"Supine arms",view:"side",tags:["arms"],springs:[[1,"L"]],
+ base:Object.assign({},SUP,TABLE,{strap:"hands",uaL:92,uaR:92}),keys:[{laL:178,laR:176,car:4},{laL:96,laR:94,car:14}],beats:[4,3],breath:["out","in"],
+ setup:"Upper arms rest on the carriage beside you, elbows bent, hands holding the straps up toward the ceiling.",
+ cues:["Breathe out and straighten the arms down toward the carriage.","Keep the upper arms still. Only the forearms move.","Breathe in and bend the elbows slowly."],
+ about:"Isolates the triceps with the rest of the body fully supported."},
+{id:"coordination",name:"Coordination",fam:"Supine abdominals",view:"side",tags:["core"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},SUP,TABLE,{strap:"hands"}),keys:[{uaL:94,laL:120,uaR:92,laR:118,car:4},{neck:-125,torso:-88,uaL:100,laL:100,uaR:100,laR:100,thL:132,shL:132,thR:130,shR:130,car:14}],beats:[4,3],breath:["out","in"],
+ setup:"Hold the straps with the elbows bent beside you and the legs in tabletop.",
+ cues:["Breathe out, curl up, and extend the arms and legs together.","Open and close the legs, then bend the knees back in.","Breathe in and lower the head as everything returns."],
+ about:"A coordination challenge for the abdominals: arms, legs, head and breath moving as one."},
+{id:"chest",name:"Chest Expansion",fam:"Kneeling arms",view:"side",tags:["arms","back"],springs:[[1,"L"]],
+ base:Object.assign({},KNEEL,{hx:20,fL:[-16,33],fR:[-14,33],strap:"hands",flip:1,fx:20,torso:178}),keys:[{uaL:70,laL:70,uaR:72,laR:72,car:4},{uaL:-28,laL:-28,uaR:-26,laR:-26,car:14}],beats:[4,3],breath:["out","in"],
+ setup:"Kneel on the carriage facing the straps, holding them with long arms in front of you.",
+ cues:["Breathe out and press the arms back past your hips.","Lift the chest and keep the ribs soft.","At the back, turn the head right and left, then return."],
+ about:"Opens the chest and strengthens the back of the shoulders. A good counter to sitting."},
+{id:"biceps",name:"Biceps Curls",fam:"Kneeling arms",view:"side",tags:["arms"],springs:[[1,"L"]],
+ base:Object.assign({},KNEEL,{hx:20,fL:[-16,33],fR:[-14,33],strap:"hands",torso:180}),keys:[{uaL:86,laL:88,uaR:88,laR:90,car:10},{uaL:86,laL:196,uaR:88,laR:198,car:2}],beats:[4,3],breath:["out","in"],
+ setup:"Kneel facing the footbar with your back to the straps. Hold them with the arms reaching forward at shoulder height.",
+ cues:["Breathe out and curl the hands toward the shoulders.","Keep the elbows high and still.","Breathe in and straighten the arms slowly."],
+ about:"Strengthens the biceps while the core keeps the kneeling body tall and still."},
+{id:"stomach",name:"Stomach Massage",fam:"Seated",view:"side",tags:["core","spine"],springs:[[2,"H"],[1,"L"]],
+ base:Object.assign({},ONBAR,{hx:60,hy:37,torso:160,arch:6,neck:150,uaL:-8,laL:-4,uaR:-6,laR:-2,kL:[.2,1],kR:[.2,1]}),keys:[{},{car:24}],beats:[4,3],breath:["out","in"],
+ setup:"Sit near the front of the carriage facing the footbar, balls of the feet on the bar, back rounded, hands holding the carriage behind you.",
+ cues:["Breathe out and press the carriage out, keeping the C-curve in the spine.","Breathe in and bend the knees back in with control.","Lift the belly in and up as the legs work."],
+ about:"Strengthens the abdominals in a rounded spine while the legs press."},
+{id:"sb_round",name:"Short Box: Round Back",fam:"Short box",view:"side",tags:["core","spine"],springs:[[1,"H"]],box:BOX,
+ base:{hx:20,hy:59,fL:[84,40],fR:[86,40],fcL:0,fcR:0,kL:[.4,1],kR:[.4,1],uaL:40,laL:118,uaR:42,laR:120},keys:[{torso:180,neck:180},{torso:222,arch:7,neck:205}],beats:[4,3],breath:["out","in"],
+ setup:"Sit on the box facing the footbar with your feet under the strap. Cross the arms in front of the chest.",
+ cues:["Breathe out and roll back into a C-curve, only as far as you can control.","Breathe in and stay there, belly scooped.","Breathe out and curl back up to sitting tall."],
+ about:"Builds abdominal strength and control in a rounded spine."},
+{id:"sb_flat",name:"Short Box: Flat Back",fam:"Short box",view:"side",tags:["core","back"],springs:[[1,"H"]],box:BOX,
+ base:{hx:20,hy:59,fL:[84,40],fR:[86,40],fcL:0,fcR:0,kL:[.4,1],kR:[.4,1]},keys:[{torso:180,neck:180,uaL:176,laL:178,uaR:178,laR:180},{torso:214,neck:214,uaL:214,laL:214,uaR:216,laR:216}],beats:[3,4],breath:["in","out"],
+ setup:"Sit tall on the box with your feet under the strap, arms reaching overhead.",
+ cues:["Hinge back from the hips in one long line, arms in line with the ears.","Keep the back flat and the ribs closed.","Return to sitting tall without letting the arms drop."],
+ about:"Strengthens the abdominals and back muscles together with a long, neutral spine."},
+{id:"elephant",name:"Elephant",fam:"Standing",view:"side",tags:["standing","legs","spine"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},BAR,{hx:18,hy:105,torso:65,neck:20,hc:0,fL:[6,33],fR:[8,33],ftL:90,ftR:90,kL:[1,0],kR:[1,0],ehL:[-.3,1],ehR:[-.3,1]}),keys:[{},{car:22}],beats:[4,3],breath:["out","in"],
+ setup:"Stand on the carriage facing the footbar, heels against the shoulder blocks, hands on the bar. Round the back and lift the hips high.",
+ cues:["Breathe out and push the carriage back with the legs, keeping the shoulders over the hands.","Breathe in and draw the carriage in with the abdominals.","Let the heels reach down toward the carriage."],
+ about:"Stretches the backs of the legs and trains the abdominals to drive the movement."},
+{id:"knee_round",name:"Knee Stretches",fam:"Knee stretches",view:"side",tags:["core","legs"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},KNEEL,BAR,{torso:130,arch:8,neck:100,ehL:[-.2,1],ehR:[-.2,1]}),keys:[{},{car:14}],beats:[4,3],breath:["out","in"],
+ setup:"Kneel on the carriage facing the footbar, feet against the shoulder blocks, hands on the bar. Round the back.",
+ cues:["Breathe out and push the carriage back with the knees.","Keep the spine rounded and still. Only the hips move.","Breathe in and pull the carriage in with the belly."],
+ about:"Builds abdominal and hip strength in a rounded spine."},
+{id:"long_stretch",name:"Long Stretch",fam:"Long stretch",view:"side",tags:["core","arms"],springs:[[1,"H"],[1,"L"]],
+ base:Object.assign({},BAR,{hx:60.6,hy:85.2,torso:126,neck:132,fL:[-4,38],fR:[-2,38],ftL:40,ftR:40,kL:[0,1],kR:[0,1],ehL:[-1,0],ehR:[-1,0]}),keys:[{},{car:13}],beats:[4,3],breath:["out","in"],
+ setup:"Hands on the footbar, the balls of your feet against the shoulder blocks. Hold a long plank.",
+ cues:["Breathe out and push the carriage back from the shoulders.","Breathe in and bring it back, keeping one straight line from head to heels.","Keep the hips level. Don't let them sag or pike."],
+ about:"A full-body plank on a moving surface: shoulders, core and legs."},
+{id:"down_stretch",name:"Down Stretch",fam:"Kneeling",view:"side",tags:["back","spine"],springs:[[1,"H"]],
+ base:Object.assign({},KNEEL,BAR,{torso:140,arch:-7,neck:160,ehL:[-1,0],ehR:[-1,0]}),keys:[{},{car:8,torso:146,neck:165}],beats:[4,3],breath:["out","in"],
+ setup:"Kneel facing the footbar with your feet against the shoulder blocks and hands on the bar. Lift the chest into a long, gentle arch.",
+ cues:["Breathe out and push the carriage back, lifting the chest forward and up.","Press the hips forward and keep the glutes engaged.","Breathe in and return with control."],
+ about:"Strengthens the back extensors and opens the chest and hip flexors."},
+{id:"swan",name:"Swan on the Long Box",fam:"Long box",view:"side",tags:["back"],springs:[[1,"L"]],box:BOX,
+ base:Object.assign({},BAR,{hx:16,hy:58,torso:90,neck:92,thL:-92,shL:-90,thR:-90,shR:-88,ehL:[-1,-.3],ehR:[-1,-.3]}),keys:[{},{torso:118,arch:-6,neck:140,car:4}],beats:[3,4],breath:["in","out"],
+ setup:"Lie face down on the long box with your chest at the end nearest the footbar and your hands on the bar.",
+ cues:["Breathe in and press the bar away as you lift the chest into a long arch.","Lengthen through the crown. Keep the neck in line with the spine.","Breathe out and lower with control."],
+ about:"Strengthens the back extensors and opens the front of the body."},
+{id:"pulling",name:"Pulling Straps",fam:"Long box",view:"side",tags:["back","arms"],springs:[[1,"L"]],box:BOX,
+ base:{hx:20,hy:58,torso:90,neck:90,thL:-92,shL:-90,thR:-90,shR:-88,strap:"hands",flip:1,fx:30},keys:[{uaL:70,laL:70,uaR:72,laR:72,car:4},{torso:100,neck:110,uaL:-80,laL:-82,uaR:-78,laR:-80,car:16}],beats:[4,3],breath:["out","in"],
+ setup:"Lie face down on the long box with your head toward the straps, holding them with long arms.",
+ cues:["Breathe out and pull the arms down to your sides as the chest lifts.","Keep the shoulders wide and away from the ears.","Breathe in and return the arms forward slowly."],
+ about:"Strengthens the upper back and the back of the shoulders."},
+{id:"scooter",name:"Scooter",fam:"Standing",view:"side",tags:["standing","legs"],springs:[[1,"H"],[1,"L"]],sides:true,
+ base:Object.assign({},BAR,{hx:88,hy:80,torso:135,neck:120,hc:0,fcL:0,fcR:1,fL:[114,33],fR:[50,33],kL:[1,.2],kR:[1,.2],ehL:[-1,0],ehR:[-1,0]}),keys:[{},{car:26}],beats:[4,3],breath:["out","in"],
+ setup:"Stand on the platform on one foot with the other foot on the carriage, hands on the footbar.",
+ cues:["Breathe out and push the carriage back with the working leg.","Keep the standing knee bent and the hips square.","Breathe in and bring the carriage in without letting it bump."],
+ about:"A standing glute and hamstring strengthener that also challenges balance."},
+{id:"lunge",name:"Standing Lunge",fam:"Standing",view:"side",tags:["stretch","standing"],springs:[[1,"H"]],sides:true,
+ base:Object.assign({},BAR,{hx:86,hy:62,torso:172,neck:176,hc:0,fcL:0,fcR:1,fL:[116,33],fR:[44,33],kL:[1,.2],kR:[0,-1],ehL:[-1,0],ehR:[-1,0]}),keys:[{},{car:26,hy:56}],beats:[5,5],breath:["soft","soft"],
+ setup:"Front foot on the platform, back foot on the carriage, hands on the footbar. Let the carriage slide back into a long lunge.",
+ cues:["Sink the hips and feel the front of the back hip open.","Keep the front knee over the ankle.","Breathe slowly into the stretch."],
+ about:"Stretches the hip flexors of the back leg, which tighten with sitting."},
+{id:"rest",name:"Rest Position",fam:"Rest",view:"side",tags:["stretch","breath"],springs:[[1,"H"]],
+ base:{hx:20,hy:42,torso:84,neck:100,thL:86,shL:-92,thR:84,shR:-90,uaL:72,laL:62,uaR:70,laR:60,glow:.4},keys:[{},{hy:43,torso:86,glow:.8}],beats:[3,4],breath:["in","out"],
+ setup:"Kneel on the carriage and sit back toward your heels. Fold forward and rest, arms long.",
+ cues:["Let the breath widen the back of the ribs.","Release the shoulders and the jaw.","Notice how the body feels after the work."],
+ about:"A resting position to close the session and let the breath settle."}
+];
+const M=Object.fromEntries(MOVES.map(m=>[m.id,m]));
+MOVES.forEach(m=>{const B=m.view==="side"?SIDE:FRONT;const base=Object.assign({},B,m.base||{});m.K=m.keys.map(k=>Object.assign({},base,k));m.C=m.beats.reduce((a,b)=>a+b,0)});
+
+const TAGS={footwork:"Footwork",core:"Core",legs:"Legs & glutes",arms:"Arms",back:"Back & posture",spine:"Spine mobility",stretch:"Stretch",standing:"Standing",breath:"Breath",warm:"Warm-up"};
+/* spring levels with their usual Balanced Body colors */
+const SPRING={H:{name:"heavy",color:"red",hex:"#D0453A"},M:{name:"medium",color:"green",hex:"#3E9A5B"},L:{name:"light",color:"blue",hex:"#3D73C4"},X:{name:"extra light",color:"yellow",hex:"#E0B23A"}};
+const SPRING_MODES={level:"levels",color:"colors",both:"levels + colors"};
+function springText(m,speech){const mode=settings.springs||"level";
+ const parts=m.springs.map(([n,k])=>{const s=SPRING[k];const t=mode==="color"?s.color:mode==="both"?(speech?`${s.name} ${s.color}`:`${s.name} (${s.color})`):s.name;return`${n} ${t}`});
+ return speech?parts.join(" plus ")+(m.springs.reduce((a,[n])=>a+n,0)>1?" springs":" spring"):parts.join(" + ")}
+MOVES.forEach(m=>{m.py=m.fam;Object.defineProperty(m,"hz",{get(){return springText(m)}})});
+
+const ROUTINES=[
+{id:"morning",name:"Morning Reset",hz:"WARM-UP",focus:"Whole body",feat:"bridge",saying:4,desc:"A short wake-up for the whole body: breath, footwork, a bridge and a stretch.",
+ items:[["breathing",42],["fw_toes",56],["fw_heels",56],["bridge",63],["frog",56],["knee_round",56],["elephant",56],["rest",42]]},
+{id:"express",name:"Ten-Minute Express",hz:"EXPRESS",focus:"Whole body",feat:"long_stretch",saying:2,desc:"Footwork, abdominals, knee stretches and a plank, when time is short.",
+ items:[["fw_toes",56],["fw_heels",49],["hundred",56],["frog",56],["knee_round",56],["long_stretch",56],["lunge",84]]},
+{id:"arms",name:"Arms and Posture",hz:"UPPER BODY",focus:"Arms & back",feat:"chest",saying:1,desc:"Strap work for the arms and upper back, lying, kneeling and on the long box.",
+ items:[["breathing",42],["pulldown",63],["triceps",56],["chest",63],["biceps",56],["pulling",63],["swan",63],["down_stretch",56],["rest",49]]},
+{id:"restore",name:"Stretch and Restore",hz:"RESTORE",focus:"Stretch",feat:"strapstretch",saying:4,desc:"Gentle mobility and long stretches on light springs. Good on rest days.",
+ items:[["breathing",56],["bridge",63],["strapstretch",70],["circles",63],["lunge",98],["elephant",63],["rest",70]]},
+{id:"spine",name:"Spine Mobility",hz:"MOBILITY",focus:"Spine",feat:"swan",saying:5,desc:"Curl, arch and lengthen the spine in every direction the Reformer allows.",
+ items:[["breathing",42],["bridge",63],["stomach",63],["sb_round",63],["elephant",63],["down_stretch",56],["swan",63],["lunge",84],["rest",56]]},
+{id:"core",name:"Core Strength",hz:"CORE",focus:"Core",feat:"hundred",saying:0,desc:"The Hundred, coordination, short box and plank work for a strong center.",
+ items:[["breathing",42],["fw_toes",56],["hundred",70],["coordination",63],["stomach",63],["sb_round",63],["sb_flat",56],["knee_round",63],["long_stretch",63],["elephant",56],["rest",49]]},
+{id:"legs",name:"Legs and Glutes",hz:"LOWER BODY",focus:"Legs & glutes",feat:"scooter",saying:3,desc:"The full footwork series, feet in straps, and standing scooter and lunge.",
+ items:[["fw_toes",63],["fw_heels",63],["fw_raises",56],["fw_running",56],["bridge",63],["frog",63],["circles",63],["scooter",84],["lunge",84],["strapstretch",56]]},
+{id:"foundations",name:"Reformer Foundations",hz:"BEGINNER",focus:"Whole body",feat:"fw_toes",saying:2,desc:"The essential beginner session in the classical order.",
+ items:[["breathing",42],["fw_toes",63],["fw_heels",63],["fw_raises",49],["bridge",63],["hundred",70],["frog",63],["circles",63],["pulldown",56],["stomach",63],["knee_round",56],["elephant",63],["lunge",84],["rest",49]]},
+{id:"full",name:"Full Reformer",hz:"COMPLETE",focus:"Complete",feat:"elephant",saying:5,desc:"Every family of the repertoire: footwork, straps, box work, kneeling, plank and standing.",
+ items:[["breathing",42],["fw_toes",56],["fw_heels",56],["fw_raises",49],["fw_running",49],["bridge",56],["hundred",70],["frog",56],["circles",56],["coordination",56],["pulldown",56],["chest",56],["biceps",49],["stomach",56],["sb_round",56],["sb_flat",49],["elephant",56],["knee_round",56],["long_stretch",56],["down_stretch",49],["swan",56],["scooter",84],["lunge",84],["rest",56]]}
+];
+/* the six Pilates principles: [name, label, meaning] */
+const SAYINGS=[["Centering","A Pilates principle","Every movement starts from a strong, steady center: the deep abdominals, back and pelvic floor."],
+ ["Concentration","A Pilates principle","Give each movement your full attention. The mind guides the body."],
+ ["Control","A Pilates principle","Move with control, not momentum. Resist the springs in both directions."],
+ ["Precision","A Pilates principle","A few precise repetitions are worth more than many careless ones."],
+ ["Breath","A Pilates principle","Breathe fully, and let the breath carry the movement."],
+ ["Flow","A Pilates principle","Link each movement to the next with ease, so the whole session moves as one."]];
+const sayingHTML=q=>`<figure class="saying"><blockquote>${esc(q[0])}</blockquote><figcaption>${esc(q[2])}<small>${esc(q[1])}</small></figcaption></figure>`;
+const PREP=14,PREP_FIRST=14,ARRIVE=21; /* two breaths to change springs and position between exercises, three to arrive */
+const overhead=r=>(r.items.length>1?ARRIVE:0)+PREP_FIRST+(r.items.length-1)*PREP;
+const routineSecs=r=>r.items.reduce((a,[id,s])=>a+quant(id,s),0)+overhead(r);
+/* fit a routine into a chosen number of minutes by scaling every movement's time by the same factor */
+function scaleRoutine(r,min){const moveT=r.items.reduce((a,[,s])=>a+s,0),f=Math.max(.15,(min*60-overhead(r))/moveT);
+ return Object.assign({},r,{items:r.items.map(([id,s])=>[id,Math.max(M[id].sides?30:20,Math.round(s*f/5)*5)])})}
+const fmtMin=s=>Math.max(1,Math.round(s/60));
+const fmt=s=>{s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+
+/* ---------- pose math ---------- */
+const ease=u=>.5-.5*Math.cos(Math.PI*u);
+function lerpPose(a,b,u){const o={};for(const k in a){const x=a[k],y=b[k];if(typeof x==="number")o[k]=x+((y??x)-x)*u;else if(Array.isArray(x))o[k]=x.map((v,i)=>v+(((y||x)[i])-v)*u);else o[k]=x}return o}
+function mirror(p,view){const q=Object.assign({},p);const sw=(a,b)=>{const t=q[a];q[a]=q[b];q[b]=t};
+ ["ua","la","th","sh","f","k","sua","sla","fc","ft","h","eh","hc"].forEach(n=>sw(n+"L",n+"R"));
+ if(view==="front"){["uaL","laL","uaR","laR","thL","shL","thR","shR"].forEach(n=>{if(q[n]!=null)q[n]=-q[n]});
+  ["fL","fR","kL","kR"].forEach(n=>{if(q[n])q[n]=[-q[n][0],q[n][1]]});q.hx=-q.hx;q.px=-q.px;q.face=-q.face;q.torso=360-q.torso;q.neck=360-q.neck;q.arch=-q.arch}
+ return q}
+function locate(m,t){let x=((t%m.C)+m.C)%m.C,i=0;while(i<m.beats.length-1&&x>m.beats[i]){x-=m.beats[i];i++}return{i,x}}
+function poseAt(m,t,mir){const{i,x}=locate(m,t);const n=m.K.length;const u=ease(Math.min(1,x/m.beats[i]));let p=lerpPose(m.K[i],m.K[(i+1)%n],u),nx=m.K[(i+1)%n];if(mir){p=mirror(p,m.view);nx=mirror(nx,m.view)}return{p,nx}}
+/* ---------- one breath for the whole session ----------
+   Pilates breathing is lateral and steady, with the out-breath on the effort. A 3 s in-breath and a slightly longer
+   4 s out-breath keeps each repetition slow and controlled (about 8.5 breaths, and repetitions, a minute).
+   Every part of a session (arrival, transitions, each movement and each side) lasts a whole number of breaths and
+   starts on an in-breath, so the rhythm never breaks; every movement is animated from this clock. */
+const BIN=3,BOUT=4,BREATH=BIN+BOUT;
+function breathPhase(t){const r=((t%BREATH)+BREATH)%BREATH,inh=r<BIN;return{lab:inh?"in":"out",prog:inh?r/BIN:(r-BIN)/BOUT,rem:inh?BIN-r:BREATH-r,n:Math.floor(t/BREATH)}}
+/* map each movement's keyframes onto in- and out-breaths. Holds and long stretches breathe through one full breath. */
+function buildTimeline(m){const n=m.beats.length,L=m.breath;
+ if(m.fixedPace||L.every(x=>x==="flow")){const N=Math.max(1,Math.round(BREATH/m.C));m.tl={kind:"tempo",rate:m.C*N/BREATH,per:N};return}
+ const lab=L.every(x=>x==="soft"||x==="still")?L.map((x,i)=>i%2?"out":"in"):L;
+ const groups=[];for(let i=0;i<n;){const l=lab[i],tr=[];while(i<n&&lab[i]===l){tr.push(i);i++}groups.push({l,tr,w:tr.map(q=>m.beats[q])})}
+ let next=null;const G=groups.map(g=>{const breathy=g.l==="in"||g.l==="out";let ty=breathy?(next&&g.l!==next?next:g.l):(next||"in");const types=[];
+  for(let k=0;k<(breathy?1:2);k++){types.push(ty);ty=ty==="in"?"out":"in"}next=ty;return{types,tr:g.tr,w:g.w}});
+ if(G.reduce((a,g)=>a+g.types.length,0)%2)G[G.length-1].types.push(next); /* whole breaths per cycle */
+ m.tl={kind:"breath",G,lead:G[0].types[0]==="out"?1:0,total:G.reduce((a,g)=>a+g.types.length,0)}}
+function animPose(m,t,mir){const tl=m.tl;if(tl.kind==="tempo")return poseAt(m,t*tl.rate,mir);
+ const r=((t%BREATH)+BREATH)%BREATH,j=2*Math.floor(t/BREATH)+(r<BIN?0:1),u=r<BIN?r/BIN:(r-BIN)/BOUT,n=m.K.length;let p,nx;
+ if(j<tl.lead){p=m.K[0];nx=m.K[1%n]} /* a movement that starts on an out-breath settles through the first in-breath */
+ else{let q=(j-tl.lead)%tl.total,gi=0;while(q>=tl.G[gi].types.length){q-=tl.G[gi].types.length;gi++}
+  const g=tl.G[gi],dur=g.types.map(x=>x==="in"?BIN:BOUT);let el=u*dur[q];for(let k=0;k<q;k++)el+=dur[k];
+  let acc=el/dur.reduce((a,c)=>a+c,0)*g.w.reduce((a,c)=>a+c,0),ti=0;while(ti<g.tr.length-1&&acc>g.w[ti]){acc-=g.w[ti];ti++}
+  const i=g.tr[ti];p=lerpPose(m.K[i],m.K[(i+1)%n],ease(Math.min(1,acc/g.w[ti])));nx=m.K[(i+1)%n]}
+ if(mir){p=mirror(p,m.view);nx=mirror(nx,m.view)}return{p,nx}}
+MOVES.forEach(buildTimeline);
+/* a movement lasts a whole number of breaths; each side of a two-sided movement gets the same whole number */
+const quant=(id,s)=>{const unit=M[id].sides?2*BREATH:BREATH;return Math.max(1,Math.round(s/unit))*unit};
+function breathAt(m,t){const{i,x}=locate(m,t);const n=m.beats.length,lab=m.breath[i];let rem=m.beats[i]-x,el=x,j=(i+1)%n,g=0;
+ while(m.breath[j]===lab&&g<n-1){rem+=m.beats[j];j=(j+1)%n;g++}j=(i-1+n)%n;g=0;while(m.breath[j]===lab&&g<n-1){el+=m.beats[j];j=(j-1+n)%n;g++}
+ return{lab,rem,prog:el/(el+rem)}}
+const dir=a=>[Math.sin(a*D),-Math.cos(a*D)]; // y-up world, 0° = down, 90° = right
+const add=(p,v,s)=>[p[0]+v[0]*s,p[1]+v[1]*s];
+const angOf=v=>Math.atan2(v[0],-v[1])/D;
+function ik(a,b,hint){return ik2(a,b,LEN.th,LEN.sh,hint)}
+/* two-bone IK with unequal lengths; hint picks which way the middle joint bends */
+function ik2(a,b,l1,l2,hint){let dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy);const mx=l1+l2-.01;
+ if(d>mx){b=[a[0]+dx/d*mx,a[1]+dy/d*mx];dx=b[0]-a[0];dy=b[1]-a[1];d=mx}d=Math.max(d,Math.abs(l1-l2)+.5);
+ const ux=dx/d,uy=dy/d,along=(l1*l1-l2*l2+d*d)/(2*d),h=Math.sqrt(Math.max(0,l1*l1-along*along));
+ const m=[a[0]+ux*along,a[1]+uy*along],c1=[m[0]-uy*h,m[1]+ux*h],c2=[m[0]+uy*h,m[1]-ux*h];
+ const s1=(c1[0]-m[0])*hint[0]+(c1[1]-m[1])*hint[1],s2=(c2[0]-m[0])*hint[0]+(c2[1]-m[1])*hint[1];
+ return{k:s1>=s2?c1:c2,an:b}}
+function solveBody(p){const S={};const hy=p.hy;
+ const hip=[p.hx,hy];S.hip=hip;
+ const td=dir(p.torso);S.nb=add(hip,td,LEN.torso);
+ const perp=[-td[1],td[0]];const mid=add(hip,td,LEN.torso/2);S.ctrl=add(mid,perp,p.arch*2);
+ const sb=add(S.nb,td,-3);S.shL=sb;S.shR=sb;
+ const nd=dir(p.neck);S.ne=add(S.nb,nd,LEN.neck);S.head=add(S.ne,nd,LEN.head);S.nd=nd;
+ ["L","R"].forEach(s=>{
+  if(p["h"+s]){const o=ik2(S["sh"+s],p["h"+s],LEN.ua,LEN.la,p["eh"+s]);S["el"+s]=o.k;S["ha"+s]=o.an}
+  else{S["el"+s]=add(S["sh"+s],dir(p["ua"+s]),LEN.ua*p["sua"+s]);S["ha"+s]=add(S["el"+s],dir(p["la"+s]),LEN.la*p["sla"+s])}
+  const hj=[p.hx,hy];S["hj"+s]=hj;let kn,an,fk=p["th"+s]!=null;
+  if(fk){kn=add(hj,dir(p["th"+s]),LEN.th);an=add(kn,dir(p["sh"+s]),LEN.sh)}else{const o=ik(hj,p["f"+s],p["k"+s]);kn=o.k;an=o.an}
+  S["kn"+s]=kn;S["an"+s]=an;const sa=angOf([an[0]-kn[0],an[1]-kn[1]]);
+  S["to"+s]=p["ft"+s]!=null?add(an,dir(p["ft"+s]),10):Math.abs(sa)>=50?add(an,dir(sa),10):add(an,dir(sa+90),10)});
+ S.dan=add(hip,td,13);return S}
+/* parts riding on the carriage move with it; a figure facing the risers is solved facing right and mirrored */
+function solve(p){const c=p.car||0;
+ if(p.flip){const S=solveBody(Object.assign({},p,{car:0}));for(const k in S){const v=S[k];if(k!=="nd"&&Array.isArray(v))S[k]=[2*p.fx-v[0]-c,v[1]]}S.nd=[-S.nd[0],S.nd[1]];S.face=-1;return S}
+ const q=Object.assign({},p,{hx:p.hx-(p.hc?c:0)});
+ if(p.fL)q.fL=[p.fL[0]-(p.fcL?c:0),p.fL[1]];if(p.fR)q.fR=[p.fR[0]-(p.fcR?c:0),p.fR[1]];
+ if(p.hL)q.hL=[p.hL[0]-(p.hcL?c:0),p.hL[1]];if(p.hR)q.hR=[p.hR[0]-(p.hcR?c:0),p.hR[1]];
+ return solveBody(q)}
+
+/* ---------- drawing ---------- */
+let COL={};
+function readColors(){const cs=getComputedStyle(document.documentElement);const g=n=>cs.getPropertyValue(n).trim();
+ COL={ink:g("--ink"),muted:g("--muted"),line:g("--line"),jade:g("--jade"),saffron:g("--saffron"),surface:g("--surface"),sunk:g("--sunk"),paper:g("--paper"),wood:g("--wood"),pad:g("--pad")}}
+function fit(c){const r=c.getBoundingClientRect();const dpr=Math.min(2.5,window.devicePixelRatio||1);const w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));
+ if(c.width!==w||c.height!==h){c.width=w;c.height=h}const ctx=c.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,W:r.width,H:r.height}}
+/* how tall a movement gets, so each one sits centered over the machine */
+function moveTop(m){if(m.top==null){let t=90;m.K.forEach(k=>{const S=solve(k);for(const key in S){const v=S[key];if(key!=="nd"&&Array.isArray(v))t=Math.max(t,v[1]+(key==="head"?LEN.head:0))}});m.top=t+10}return m.top}
+function drawScene(c,m,pose,opt={}){const{ctx,W,H}=fit(c);if(W<2)return;ctx.clearRect(0,0,W,H);
+ const pad=opt.pad??1;const s=Math.min(W/276,H/212)*pad;const cx=W/2,gy=H/2+moveTop(m)/2*s;
+ const T=pt=>[cx+pt[0]*s,gy-pt[1]*s];
+ /* progress along the bottom edge: the machine is long, so the bar runs the same way */
+ if(opt.ring!=null){const y=H-6,x0=18,x1=W-18;ctx.lineCap="round";ctx.lineWidth=3;ctx.strokeStyle=COL.line;ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();
+  if(opt.ring>0){ctx.strokeStyle=COL.saffron;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x0+(x1-x0)*opt.ring,y);ctx.stroke()}}
+ ctx.lineCap="round";ctx.strokeStyle=COL.line;ctx.lineWidth=Math.max(1.5,2*s);ctx.beginPath();ctx.moveTo(cx-136*s,gy+1*s);ctx.lineTo(cx+136*s,gy+1*s);ctx.stroke();
+ drawReformer(ctx,T,s,pose.car||0,m);
+ const S=solve(pose);
+ if(pose.strap){const ends=pose.strap==="hands"?[S.haL,S.haR]:[S.anL,S.anR];ctx.strokeStyle=hexA(COL.muted,.7);ctx.lineWidth=Math.max(1,1.3*s);
+  ends.forEach(e=>{const a=T(RF.pulley),b=T(e);ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();ctx.beginPath();ctx.arc(b[0],b[1],3.2*s,0,Math.PI*2);ctx.stroke()})}
+ if(pose.glow>0&&!opt.thumb){const g=T(S.dan);const rr=(14+22*pose.glow)*s;const grd=ctx.createRadialGradient(g[0],g[1],0,g[0],g[1],rr);grd.addColorStop(0,hexA(COL.jade,.38*pose.glow));grd.addColorStop(1,hexA(COL.jade,0));ctx.fillStyle=grd;ctx.beginPath();ctx.arc(g[0],g[1],rr,0,Math.PI*2);ctx.fill()}
+ if(opt.ghost){const G=solve(opt.ghost);skeleton(ctx,G,T,s,"side",hexA(COL.jade,.32),hexA(COL.jade,.22),true)}
+ skeleton(ctx,S,T,s,"side",COL.ink,hexA(COL.ink,.4),false,pose)}
+/* the machine: frame, risers and pulleys, footbar, platform, springs, sliding carriage with headrest and shoulder blocks */
+function drawReformer(ctx,T,s,c,m){const wood=COL.wood,pad=COL.pad,metal=hexA(COL.muted,.8);
+ const seg=(a,b,w,col)=>{const p=T(a),q=T(b);ctx.strokeStyle=col;ctx.lineWidth=Math.max(1,w*s);ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(q[0],q[1]);ctx.stroke()};
+ const rect=(x0,y0,x1,y1,col,r)=>{const a=T([x0,y1]),b=T([x1,y0]);ctx.fillStyle=col;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(a[0],a[1],b[0]-a[0],b[1]-a[1],r*s);else ctx.rect(a[0],a[1],b[0]-a[0],b[1]-a[1]);ctx.fill()};
+ const dot=(x,y,r,col)=>{const q=T([x,y]);ctx.fillStyle=col;ctx.beginPath();ctx.arc(q[0],q[1],r*s,0,Math.PI*2);ctx.fill()};
+ ctx.lineCap="round";
+ seg([-124,1],[-124,20],5,wood);seg([124,1],[124,20],5,wood);rect(-129,18,129,24,wood,2);
+ seg([-124,24],[-124,80],3.5,metal);dot(-121,79,3.4,metal);
+ rect(102,24,129,30,pad,2);
+ seg([100,24],[112,62],3.5,metal);dot(112,62,3.6,metal);
+ /* springs from the anchor near the footbar to the carriage, one coil per spring, in its color when colors are shown */
+ const mode=settings.springs||"level",list=[];(m.springs||[[1,"M"]]).forEach(([n,k])=>{for(let i=0;i<n;i++)list.push(k)});
+ const x0=97,x1=RF.carR-c;list.slice(0,4).forEach((k,j)=>{const y=27-j*1.6,col=mode==="level"?metal:SPRING[k].hex;ctx.strokeStyle=col;ctx.lineWidth=Math.max(1,1.3*s);ctx.beginPath();
+  const n=12;for(let i=0;i<=n;i++){const x=x1+(x0-x1)*i/n,yy=y+((i>0&&i<n)?(i%2?1.8:-1.8):0);const q=T([x,yy]);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])}ctx.stroke()});
+ rect(RF.carL-c,24,RF.carR-c,30,pad,2.5);rect(RF.carL-c,30,RF.carL+14-c,33,pad,1.5);rect(-3-c,30,3-c,42,pad,1.5);
+ if(m.box)rect(m.box.x0-c,30,m.box.x1-c,30+m.box.h,wood,2)}
+function hexA(col,a){col=col.trim();if(col.startsWith("#")){let h=col.slice(1);if(h.length===3)h=h.split("").map(x=>x+x).join("");const n=parseInt(h,16);return`rgba(${n>>16&255},${n>>8&255},${n&255},${a})`}
+ const m=col.match(/[\d.]+/g);return m?`rgba(${m[0]},${m[1]},${m[2]},${a})`:col}
+function skeleton(ctx,S,T,s,view,ink,far,ghost,pose){const side=view==="side";ctx.lineCap="round";ctx.lineJoin="round";
+ const line=(pts,w,c)=>{ctx.strokeStyle=c;ctx.lineWidth=w*s;ctx.beginPath();pts.forEach((p,i)=>{const q=T(p);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])});ctx.stroke()};
+ const dotAt=(p,r,c)=>{const q=T(p);ctx.fillStyle=c;ctx.beginPath();ctx.arc(q[0],q[1],r*s,0,Math.PI*2);ctx.fill()};
+ const lw=ghost?5:6.4;
+ const leg=(k,c)=>line([S["hj"+k],S["kn"+k],S["an"+k],S["to"+k]],lw,c);
+ const arm=(k,c)=>{line([S["sh"+k],S["el"+k],S["ha"+k]],lw*.9,c);dotAt(S["ha"+k],3.6,c)};
+ if(side){leg("L",far);arm("L",far)}
+ // torso
+ const a=T(S.hip),b=T(S.nb),cc=T(S.ctrl);ctx.strokeStyle=ink;ctx.lineWidth=(ghost?7:9.5)*s;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.quadraticCurveTo(cc[0],cc[1],b[0],b[1]);ctx.stroke();
+ if(!side){line([S.hjL,S.hjR],lw*.9,ink);line([S.shL,S.shR],lw*.9,ink);leg("L",ink);leg("R",ink)}else leg("R",ink);
+ line([S.nb,S.ne],lw*.9,ink);
+ // head
+ const h=T(S.head);ctx.lineWidth=(ghost?2.4:3.2)*s;ctx.strokeStyle=ink;ctx.fillStyle=ghost?"transparent":COL.surface;ctx.beginPath();ctx.arc(h[0],h[1],LEN.head*s,0,Math.PI*2);if(!ghost)ctx.fill();ctx.stroke();
+ if(!ghost&&pose){let n=null;if(side){const ang=angOf(S.nd)-90*(S.face||1);n=add(S.head,dir(ang),LEN.head*.62)}else if(Math.abs(pose.face)>.05){n=[S.head[0]+pose.face*LEN.head*.62,S.head[1]-1]}
+  if(n)dotAt(n,2.2,ink)}
+ if(side)arm("R",ink);else{arm("L",ink);arm("R",ink)}}
+
+/* static + animated canvas registry */
+const statics=[];
+function staticPose(c,m,opt={}){const f=()=>drawScene(c,m,opt.keyIndex!=null?m.K[opt.keyIndex]:poseAt(m,m.beats[0]*.999).p,Object.assign({thumb:true},opt));statics.push(f);requestAnimationFrame(f);return f}
+function redrawAll(){readColors();statics.forEach(f=>f());if(player.active)player.render()}
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- audio ---------- */
+let AC=null;
+/* iPhone mutes web audio with the ringer switch unless the page asks for "playback";
+   speech can also leave the audio context "interrupted", so resume it before every sound. */
+try{if(navigator.audioSession)navigator.audioSession.type="playback"}catch(e){}
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}return AC}
+function withAudio(play){const a=ac();if(!a)return;if(a.state==="running")play(a);else a.resume().then(()=>play(a)).catch(()=>{})}
+function bowl(strength=1){if(!settings.bell)return;withAudio(a=>{const t=a.currentTime+.02,f0=262;const out=a.createGain();out.gain.value=.34*strength;out.connect(a.destination);
+ [[1,1,5],[2.71,.45,3.5],[5.1,.22,2.2],[1.003,.6,5]].forEach(([r,g,d])=>{const o=a.createOscillator(),gn=a.createGain();o.type="sine";o.frequency.value=f0*r;gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(g,t+.015);gn.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(gn);gn.connect(out);o.start(t);o.stop(t+d+.1)})})}
+function tick(hi){if(!settings.bell)return;withAudio(a=>{const t=a.currentTime+.01,o=a.createOscillator(),g=a.createGain();o.type="triangle";o.frequency.value=hi?1320:880;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.16,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.12);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.15)})}
+
+/* ---------- voice ---------- */
+let VOICE=null;
+/* Network voices (e.g. Chrome's "Google …") go silent offline, so offline we only use on-device voices. */
+function pickVoice(){try{let vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));if(!navigator.onLine){const loc=vs.filter(v=>v.localService);if(loc.length)vs=loc}const pref=[/natural/i,/Google UK English Female/i,/Samantha/i,/Serena/i,/Daniel/i,/Aria/i,/Jenny/i,/Google US English/i];
+ for(const p of pref){const v=vs.find(v=>p.test(v.name));if(v)return v}return vs[0]||null}catch(e){return null}}
+try{VOICE=pickVoice();speechSynthesis.onvoiceschanged=()=>{VOICE=pickVoice()}}catch(e){}
+addEventListener("online",()=>{VOICE=pickVoice()});addEventListener("offline",()=>{VOICE=pickVoice()});
+/* opt.caption=false speaks without replacing the on-screen cue (used for breath words) */
+/* unhurried: a slow rate, and each sentence spoken on its own so there is a natural pause between them */
+function say(text,interrupt,opt={}){const cue=$("#plCue");if(cue&&opt.caption!==false)cue.textContent=typeof opt.caption==="string"?opt.caption:text;if(!settings.voice)return;
+ try{if(interrupt)speechSynthesis.cancel();text.split(/(?<=[.!?])\s+/).forEach(part=>{const u=new SpeechSynthesisUtterance(part);if(VOICE)u.voice=VOICE;u.rate=opt.rate||.8;u.pitch=.95;u.volume=1;speechSynthesis.speak(u)})}catch(e){}}
+const speaking=()=>{try{return speechSynthesis.speaking||speechSynthesis.pending}catch(e){return false}};
+
+/* presence prompts, woven between the form cues so attention keeps returning to the body and the breath */
+const PRESENCE={
+ all:["Lengthen through the crown of the head.","Keep the shoulders soft and away from the ears.","Let the ribs stay soft and knitted together.","Move with control, not momentum.","Notice where the work is coming from.","If the mind has wandered, come back to the breath and the springs.","Precision over repetition. Make each one count.","Let the movement flow from a strong center."],
+ core:["Breathe out and draw the navel gently toward the spine.","Keep the pelvis still and heavy."],
+ footwork:["Press evenly through both feet.","Keep the hips, knees and ankles in one line."],
+ legs:["Feel the backs of the legs and the glutes do the work."],
+ arms:["Let the movement start from the back, not the hands."],
+ back:["Lengthen before you lift."],
+ spine:["Move one vertebra at a time."],
+ stretch:["Breathe into the place that is stretching.","Find the edge of the stretch and rest there."],
+ standing:["Root down through the standing foot.","Keep the hips level and square."],
+ breath:["Feel the back of the ribs widen as you breathe in."],
+ flow:["Find a steady rhythm and let the breath stay easy."],
+ soft:["Long, slow breaths. Let the stretch come to you."]};
+function presenceFor(m,used){const modes=[...new Set(m.breath)].filter(b=>b==="flow"||b==="soft");
+ const pool=[...PRESENCE.all,...m.tags.flatMap(t=>PRESENCE[t]||[]),...modes.flatMap(b=>[...PRESENCE[b],...PRESENCE[b]])];let fresh=pool.filter(x=>!used.has(x));if(!fresh.length){used.clear();fresh=pool}
+ const pick=fresh[Math.floor(Math.random()*fresh.length)];used.add(pick);return pick}
+
+/* ---------- history ---------- */
+const dkey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function history(){return store.get("history",[])}
+function record(secs,name,ids){if(secs<45)return;const h=history();h.push({d:dkey(new Date()),s:Math.round(secs),r:name,ids:ids||[]});store.set("history",h.slice(-400));renderLog()}
+function streak(){const days=new Set(history().map(x=>x.d));let n=0;const d=new Date();if(!days.has(dkey(d)))d.setDate(d.getDate()-1);while(days.has(dkey(d))){n++;d.setDate(d.getDate()-1)}return n}
+
+/* ---------- DOM helpers ---------- */
+const $=s=>document.querySelector(s);
+const el=(tag,attrs={},html="")=>{const e=document.createElement(tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(html)e.innerHTML=html;return e};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- home: log ---------- */
+function renderLog(){const h=history(),days=new Set(h.map(x=>x.d));const wk=$("#week");wk.innerHTML="";const now=new Date();const dow=(now.getDay()+6)%7;
+ const mon=new Date(now);mon.setDate(now.getDate()-dow);let wsec=0;const names=["M","T","W","T","F","S","S"];
+ for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const k=dkey(d);const on=days.has(k);h.forEach(x=>{if(x.d===k)wsec+=x.s});
+  const cell=el("div",{class:"day"},`<div class="dot${on?" on":""}${i===dow?" is-today":""}" aria-label="${d.toDateString()}${on?", practiced":""}">${on?"✓":d.getDate()}</div><span>${names[i]}</span><span class="mark" title="${esc(THEMES[d.getDay()].name)}">${THEMES[d.getDay()].mark}</span>`);wk.appendChild(cell)}
+ const st=streak();$("#streakN").textContent=st;$("#streakL").textContent=st===1?"day streak":"day streak";
+ $("#weekMin").textContent=Math.round(wsec/60)+" min this week";$("#allMin").textContent=h.length?(h.length+(h.length===1?" session":" sessions")+" total"):"Your first session will appear here"}
+
+/* ---------- home: hero ---------- */
+/* ---------- daily practice: a weekly rhythm, a new sequence each day ---------- */
+const WEEKDAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const ZHOU=["周日","周一","周二","周三","周四","周五","周六"];
+/* indexed by Date.getDay(). "ordered" sets keep their traditional order; "pool" themes are shuffled. */
+const THEMES=[
+ {mark:"R",name:"Stretch and Restore",hz:"RESTORE",desc:"Sunday is for recovery: gentle mobility and long stretches on light springs.",warm:["breathing","bridge"],pool:["strapstretch","circles","lunge","elephant","stomach","sb_round","swan","down_stretch"],close:["rest"],per:80},
+ {mark:"L",name:"Footwork and Legs",hz:"LOWER BODY",desc:"Start the week from the ground up: footwork, straps and standing leg work.",warm:["breathing","fw_toes"],pool:["fw_heels","fw_raises","fw_running","bridge","frog","circles","scooter","lunge"],close:["strapstretch"]},
+ {mark:"C",name:"Core",hz:"CORE",desc:"Abdominal work in every position: lying, seated, kneeling and in plank.",warm:["breathing","fw_toes"],pool:["hundred","coordination","stomach","knee_round","long_stretch","sb_round","sb_flat","elephant"],close:["rest"]},
+ {mark:"A",name:"Arms and Back",hz:"UPPER BODY",desc:"Strap work for the arms and the upper back, and extension on the long box.",warm:["breathing","fw_toes"],pool:["pulldown","triceps","chest","biceps","pulling","swan","down_stretch"],close:["rest"]},
+ {mark:"S",name:"Spine and Mobility",hz:"MOBILITY",desc:"Curl, arch and lengthen the spine.",warm:["breathing","bridge"],pool:["stomach","sb_round","sb_flat","elephant","swan","down_stretch","lunge","circles"],close:["rest"]},
+ {mark:"F",name:"Full Body Flow",hz:"FLOW",desc:"The classical order, a different stretch of it each week.",warm:["breathing"],ordered:["fw_toes","fw_heels","fw_raises","hundred","frog","circles","stomach","sb_round","elephant","knee_round","long_stretch","down_stretch","scooter","lunge"],close:["rest"]},
+ {mark:"B",name:"Strength and Balance",hz:"STRENGTH",desc:"A longer weekend session: planks, standing work and the hardest abdominal series.",warm:["breathing","fw_toes"],pool:["scooter","long_stretch","knee_round","hundred","coordination","chest","biceps","lunge","elephant"],close:["rest"]}
+];
+const LENGTHS=[["short","Short",8],["standard","Standard",15],["long","Long",25]];
+function seeded(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}
+ return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return(h>>>0)/4294967296}}
+function shuffle(a,rnd){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function dailyPractice(date,lenKey){const today=dkey(date),th=THEMES[date.getDay()],min=LENGTHS.find(l=>l[0]===lenKey)[2],T=min*60,rnd=seeded(today+lenKey);
+ /* movements from the three days before today go to the back of the queue. Today's own sessions are ignored so the plan holds all day. */
+ const since=new Date(date);since.setDate(since.getDate()-3);const sinceKey=dkey(since);
+ const recent=new Set(history().filter(x=>x.d<today&&x.d>=sinceKey).flatMap(x=>x.ids||[]));
+ const fresh=list=>{const sh=shuffle(list,rnd);return[...sh.filter(id=>!recent.has(id)),...sh.filter(id=>recent.has(id))]};
+ const nWarm=min<=8?2:min<=15?3:4;const warm=fresh(th.warm||WARM).slice(0,nWarm);
+ const close=min<=8?th.close.slice(-1):th.close;
+ const nMain=Math.max(2,Math.round((T-nWarm*45-close.length*70)/(th.per||72)));let main;
+ if(th.ordered){const L=th.ordered.length;
+  if(nMain>=L)main=[...th.ordered,...fresh(th.extra||[]).slice(0,nMain-L)];
+  else{const week=Math.floor(date.getTime()/6048e5),start=(week*nMain)%L;main=Array.from({length:nMain},(_,i)=>th.ordered[(start+i)%L])}} /* a different stretch of the set each week */
+ else main=fresh(th.pool).slice(0,nMain);
+ main=main.filter(id=>!warm.includes(id)&&!close.includes(id));
+ const ids=[...warm,...main,...close];const avail=T-overhead({items:ids});
+ const w=ids.map((id,i)=>id==="zuochan"?3:i<warm.length?.65:(M[id].sides?1.4:1)*(close.includes(id)?1.2:1));const sw=w.reduce((a,b)=>a+b,0);
+ const items=ids.map((id,i)=>[id,Math.max(30,Math.min(id==="zuochan"?600:240,Math.round(avail*w[i]/sw/5)*5))]);
+ return{id:"daily",name:th.name,hz:th.hz,focus:th.name,feat:main[0]||ids[0],desc:th.desc,items,theme:th}}
+
+let heroR=null,heroAnim=0,heroDay="";
+function setupHero(){cancelAnimationFrame(heroAnim);const now=new Date(),hr=now.getHours(),lenKey=settings.dailyLen||"standard";heroDay=dkey(now);
+ heroR=dailyPractice(now,lenKey);
+ $("#greet").textContent=`${hr<12?"Good morning":hr<17?"Good afternoon":"Good evening"} · ${WEEKDAYS[now.getDay()]}`;
+ $("#heroName").textContent=heroR.name;$("#heroHz").textContent=heroR.hz;$("#heroDesc").textContent=heroR.desc+" A new sequence every day.";
+ $("#heroMeta").innerHTML=`<span><b class="num">${fmtMin(routineSecs(heroR))}</b> min</span><span><b class="num">${heroR.items.length}</b> exercises</span><span>Featured: <b>${esc(M[heroR.feat].name)}</b></span>`;
+ renderChips($("#dailyLen"),LENGTHS.map(([k,l])=>[k,l]),lenKey,v=>{settings.dailyLen=v;saveSettings();setupHero()});
+ $("#heroGo").onclick=()=>player.start(heroR);$("#heroView").onclick=()=>openRoutine(heroR);
+ const c=$("#heroCanvas"),m=M[heroR.feat];
+ if(reduced){staticPose(c,m,{pad:.92});return}
+ const loop=now=>{if(!player.active&&!document.hidden){const t=now/1000;const half=m.sides&&(Math.floor(t/(4*BREATH))%2===1);const{p,nx}=animPose(m,t,half);drawScene(c,m,p,{pad:.92,ghost:nx})}heroAnim=requestAnimationFrame(loop)};heroAnim=requestAnimationFrame(loop)}
+/* a new day while the app was left open */
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!player.active&&heroDay&&heroDay!==dkey(new Date())){setupHero();renderLog()}});
+
+/* ---------- routines grid ---------- */
+const DUR=[["all","All"],["5","5 min"],["10","10 min"],["15","15 min"],["30","20 min +"]];let durF="all";
+function durBucket(s){const m=s/60;return m<=7?"5":m<=12?"10":m<=18?"15":"30"}
+function renderChips(box,list,cur,on){box.innerHTML="";list.forEach(([v,l])=>{const b=el("button",{class:"chip","aria-pressed":String(v===cur),type:"button"},esc(l));b.onclick=()=>on(v);box.appendChild(b)})}
+function renderRoutines(){renderChips($("#durChips"),DUR,durF,v=>{durF=v;renderRoutines()});const g=$("#routines");g.innerHTML="";
+ ROUTINES.filter(r=>durF==="all"||durBucket(routineSecs(r))===durF).forEach(r=>{const secs=routineSecs(r);
+  const b=el("button",{class:"rcard",type:"button","aria-label":`${r.name}, ${fmtMin(secs)} minutes`});
+  b.innerHTML=`<div class="dur num">${fmtMin(secs)}<span>min</span></div><div class="vhz" aria-hidden="true">${esc(r.hz)}</div><h3>${esc(r.name)}</h3><p>${esc(r.desc)}</p><div class="strip"></div>`;
+  const strip=b.querySelector(".strip");const uniq=[...new Set(r.items.map(x=>x[0]))].slice(0,6);uniq.forEach(id=>{const c=el("canvas",{"aria-hidden":"true"});strip.appendChild(c);staticPose(c,M[id],{pad:1.05})});
+  b.onclick=()=>openRoutine(r);g.appendChild(b)})}
+
+/* ---------- compose ---------- */
+const FOCI=[["balanced","Balanced"],["core","Core"],["legs","Legs & glutes"],["arms","Arms & back"],["spine","Spine"],["stretch","Stretch"]];
+const POOLS={balanced:["hundred","frog","circles","pulldown","stomach","knee_round","elephant","long_stretch","chest","swan","scooter","sb_round","coordination","lunge"],
+ core:["hundred","coordination","stomach","sb_round","sb_flat","knee_round","long_stretch","elephant"],
+ legs:["fw_heels","fw_raises","fw_running","bridge","frog","circles","scooter","lunge"],
+ arms:["pulldown","triceps","chest","biceps","pulling","swan","long_stretch","down_stretch"],
+ spine:["bridge","stomach","sb_round","sb_flat","elephant","swan","down_stretch","lunge"],
+ stretch:["strapstretch","circles","lunge","elephant","bridge","stomach"]};
+const WARM=["breathing","fw_toes","fw_heels","bridge"];
+let cFocus=store.get("cFocus","balanced"),cMin=store.get("cMin",15),composed=null;
+/* always: breath and footwork to start, a rest or stretch to finish */
+function compose(min,focus){const T=min*60,n=Math.max(4,Math.round(T/78)),nw=n>=8?3:2,close=["rest"];
+ const warm=(focus==="stretch"?["breathing","bridge","circles"]:WARM).slice(0,nw);
+ const pool=POOLS[focus].filter(id=>!warm.includes(id)&&!close.includes(id)),nm=Math.max(1,n-nw-close.length),main=[];for(let i=0;i<nm;i++)main.push(pool[i%pool.length]);
+ const ids=[...warm,...main,...close],avail=T-overhead({items:ids});
+ const w=ids.map((id,i)=>i<warm.length?.75:M[id].sides?1.4:1),sw=w.reduce((a,b)=>a+b,0);
+ const items=ids.map((id,i)=>[id,Math.max(30,Math.min(180,Math.round(avail*w[i]/sw/5)*5))]);
+ return{id:"custom",name:`${min}-minute ${FOCI.find(f=>f[0]===focus)[1].toLowerCase()} workout`,hz:"CUSTOM",desc:"Composed for you.",items}}
+function renderCompose(){$("#cMin").value=cMin;$("#cMinOut").innerHTML=`${cMin}<span> min</span>`;
+ renderChips($("#focusChips"),FOCI,cFocus,v=>{cFocus=v;store.set("cFocus",v);renderCompose()});
+ composed=compose(cMin,cFocus);const ol=$("#cPlan");ol.innerHTML="";
+ composed.items.forEach(([id,s])=>{const m=M[id];const li=el("li",{},`<canvas aria-hidden="true"></canvas><span class="nm">${esc(m.name)}<small>${esc(m.hz)} · ${esc(m.py)}</small></span><span class="s">${fmt(quant(id,s))}</span>`);ol.appendChild(li);staticPose(li.querySelector("canvas"),m,{pad:1.1})});
+ $("#cPlanMeta").textContent=`${composed.items.length} exercises · ${fmtMin(routineSecs(composed))} min`}
+
+/* ---------- library ---------- */
+let tagF="all";
+function renderLib(){const tl=[["all","All"],...["footwork","core","legs","arms","back","spine","stretch","standing","breath"].map(t=>[t,TAGS[t]])];
+ renderChips($("#tagChips"),tl,tagF,v=>{tagF=v;renderLib()});const g=$("#lib");g.innerHTML="";
+ MOVES.filter(m=>tagF==="all"||m.tags.includes(tagF)).forEach(m=>{const b=el("button",{class:"mcard",type:"button"},`<canvas aria-hidden="true"></canvas><span class="hzs">${esc(m.hz)}</span><b>${esc(m.name)}</b><small>${esc(m.py)}</small>`);
+  const c=b.querySelector("canvas");const draw=staticPose(c,m,{pad:1});let raf=0;
+  const go=()=>{if(reduced)return;cancelAnimationFrame(raf);const t0=performance.now();const f=now=>{const{p,nx}=animPose(m,(now-t0)/1000);drawScene(c,m,p,{pad:1,thumb:true,ghost:nx});raf=requestAnimationFrame(f)};raf=requestAnimationFrame(f)};
+  const stop=()=>{cancelAnimationFrame(raf);draw()};
+  b.addEventListener("pointerenter",go);b.addEventListener("pointerleave",stop);b.addEventListener("focus",go);b.addEventListener("blur",stop);
+  b.onclick=()=>{stop();openMove(m)};g.appendChild(b)})}
+/* spring notation: plain resistance levels, Balanced Body colors, or both */
+function syncSprings(){$("#tSprings").textContent="Springs: "+SPRING_MODES[settings.springs||"level"]}
+$("#tSprings").onclick=()=>{const order=["level","color","both"];settings.springs=order[(order.indexOf(settings.springs||"level")+1)%3];saveSettings();syncSprings();renderCompose();renderLib();redrawAll()};
+
+/* ---------- sheets ---------- */
+let sheetAnim=0,lastFocus=null;
+function openSheet(html,list){lastFocus=document.activeElement;const p=$("#panel");p.className="panel"+(list?" list":"");p.innerHTML=html;$("#sheet").hidden=false;document.body.style.overflow="hidden";const x=p.querySelector(".x");x&&x.focus()}
+function closeSheet(){cancelAnimationFrame(sheetAnim);$("#sheet").hidden=true;document.body.style.overflow="";lastFocus&&lastFocus.focus&&lastFocus.focus()}
+$("#sheet").addEventListener("click",e=>{if(e.target.id==="sheet")closeSheet()});
+const XBTN=`<button class="x" type="button" aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
+function openMove(m){openSheet(`<div class="pfig"><canvas id="mvC" aria-label="${esc(m.name)} demonstration"></canvas></div><div class="pbody">${XBTN}
+ <div class="hero-hz">Springs · ${esc(m.hz)}</div><h2 id="sheetTitle">${esc(m.name)}</h2><div class="muted" style="font-size:13px">${esc(m.py)} · ${m.tags.map(t=>esc(TAGS[t])).join(" · ")}${m.sides?" · both sides":""}</div>
+ <p>${esc(m.about)}</p><div><div class="eyebrow" style="margin-bottom:6px">How to</div><p>${esc(m.setup)}</p></div>
+ <div><div class="eyebrow" style="margin-bottom:6px">Coaching cues</div><ul>${m.cues.map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
+ <div class="muted" style="font-size:13px">Breath: ${breathSummary(m)}</div>
+ <div><button class="btn" id="mvGo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Try it for 1 minute</button></div></div>`);
+ $("#panel .x").onclick=closeSheet;$("#mvGo").onclick=()=>{closeSheet();player.start({id:"single",name:m.name,hz:m.hz,items:[[m.id,60]]})};
+ const c=$("#mvC");const t0=performance.now();const f=now=>{const t=(now-t0)/1000;const half=m.sides&&(Math.floor(t/(4*BREATH))%2===1);const{p,nx}=animPose(m,t,half);drawScene(c,m,p,{pad:.95,ghost:nx});if(!reduced)sheetAnim=requestAnimationFrame(f)};sheetAnim=requestAnimationFrame(f)}
+function breathSummary(m){return m.tl.kind==="tempo"?`in ${BIN} s, out ${BOUT} s, the same steady rhythm all session. The movement keeps its own tempo, ${m.tl.per>1?m.tl.per+" times":"once"} per breath`:`in ${BIN} s, out ${BOUT} s, the same steady rhythm all session. The movement follows the breath`}
+const BL={in:"Inhale",out:"Exhale",hold:"Hold",flow:"Breathe naturally",soft:"Breathe into the stretch",still:"Rest in stillness"};
+function openRoutine(base){const full=fmtMin(routineSecs(base)),keep=!["daily","custom","single"].includes(base.id);
+ const lo=Math.max(3,Math.min(5,full)),hi=Math.max(30,Math.min(60,full*2));let min=Math.min(hi,Math.max(lo,keep&&settings.lenFor[base.id]||full));
+ openSheet(`<div class="pbody">${XBTN}<div class="hero-hz">${esc(base.hz)}</div><h2 id="sheetTitle">${esc(base.name)}</h2><p class="muted">${esc(base.desc)}</p>
+ <div class="meta" id="rMeta"></div>${base.saying!=null?sayingHTML(SAYINGS[base.saying]):""}
+ <div class="field len"><div class="plan-head"><label for="rLen"><b>Length</b></label><span class="muted num" id="rLenNote"></span></div>
+  <input type="range" id="rLen" min="${lo}" max="${hi}" step="1" value="${min}"><div class="scale"><span>${lo} min</span><button type="button" class="chip" id="rLenReset">Original · ${full} min</button><span>${hi} min</span></div></div>
+ <ol class="plan" id="rPlan"></ol><div><button class="btn" id="rGo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Begin practice</button></div></div>`,true);
+ $("#panel .x").onclick=closeSheet;let r=base;
+ const draw=()=>{r=min===full?base:scaleRoutine(base,min);const secs=routineSecs(r),f=(secs/60)/full;
+  $("#rMeta").innerHTML=`<span><b class="num">${fmtMin(secs)}</b> min</span><span><b class="num">${r.items.length}</b> exercises</span><span>Focus: <b>${esc(r.focus||"")}</b></span>`;
+  $("#rLenNote").textContent=min===full?"As designed":`Every exercise ×${f.toFixed(2).replace(/0$/,"")}`;$("#rLenReset").setAttribute("aria-pressed",String(min===full));
+  const ol=$("#rPlan");ol.innerHTML="";
+  r.items.forEach(([id,s])=>{const m=M[id];const li=el("li",{},`<canvas aria-hidden="true"></canvas><span class="nm">${esc(m.name)}<small>${esc(m.hz)} · ${esc(m.py)}${m.sides?" · both sides":""}</small></span><span class="s">${fmt(quant(id,s))}</span>`);ol.appendChild(li);
+   requestAnimationFrame(()=>drawScene(li.querySelector("canvas"),m,poseAt(m,m.beats[0]*.999).p,{pad:1.1,thumb:true}))})};
+ const set=v=>{min=v;$("#rLen").value=v;if(keep){settings.lenFor[base.id]=v;saveSettings()}draw()};
+ $("#rLen").addEventListener("input",e=>set(+e.target.value));$("#rLenReset").onclick=()=>set(full);draw();
+ $("#rGo").onclick=()=>{closeSheet();player.start(r)}}
+
+/* ---------- player ---------- */
+const player={active:false,segs:[],si:0,t:0,running:false,raf:0,last:0,practiced:0,wake:null,routine:null,
+ start(r){ac();this.routine=r;this.segs=[];this.arrive=r.items.length>1;if(this.arrive)this.segs.push({kind:"arrive",m:M[r.items[0][0]],dur:ARRIVE,idx:-1});r.items.forEach(([id,s],i)=>{this.segs.push({kind:"prep",m:M[id],dur:i===0?PREP_FIRST:PREP,idx:i});this.segs.push({kind:"move",m:M[id],dur:quant(id,s),idx:i})});
+  this.total=this.segs.reduce((a,s)=>a+s.dur,0);this.si=0;this.t=0;this.practiced=0;this.recorded=false;this.idsDone=new Set();this.usedPres=new Set();this.active=true;this.running=true;
+  $("#player").hidden=false;$("#plDone").hidden=true;document.body.style.overflow="hidden";$("#plRoutine").textContent=r.name;
+  const bar=$("#plBar");bar.innerHTML="";r.items.forEach(([id,s])=>{const d=el("div");d.style.flex=String(quant(id,s));d.appendChild(el("i"));bar.appendChild(d)});
+  this.syncToggles();this.enter(true);this.lockWake();this.last=performance.now();cancelAnimationFrame(this.raf);this.raf=requestAnimationFrame(n=>this.frame(n));$("#plPlay").focus()},
+ async lockWake(){try{if("wakeLock" in navigator)this.wake=await navigator.wakeLock.request("screen")}catch(e){this.wake=null}},
+ seg(){return this.segs[this.si]},
+ enter(first){const g=this.seg(),m=g.m,n=this.routine.items.length;this.fired={};this.prevLab=null;this.breathN=0;
+  if(g.kind==="arrive"){$("#plStep").textContent="Arrive";$("#plName").textContent=this.routine.name;$("#plHz").textContent=this.routine.hz||"";$("#plPy").textContent=fmtMin(this.total)+" minutes";
+   $("#plPhase").textContent="Arrive";$("#plNextWrap").hidden=true;bowl(.6);
+   say("Welcome. Take a moment beside your reformer. Let the shoulders soften, and let the breath settle into the sides of the ribs.",true);return}
+  $("#plStep").textContent=g.kind==="prep"?`Up next · ${g.idx+1} of ${n}`:`Exercise ${g.idx+1} of ${n}`;
+  $("#plName").textContent=m.name;$("#plHz").textContent=m.hz;$("#plPy").textContent=m.py+(m.sides?" · both sides":"");
+  $("#plPhase").textContent=g.kind==="prep"?"Set springs":m.sides?"Side one":"Practice";
+  const nextIdx=g.idx+1;const nw=$("#plNextWrap");
+  this.nextM=g.kind==="move"&&nextIdx<n?M[this.routine.items[nextIdx][0]]:null;nw.classList.remove("soon");
+  if(this.nextM){nw.hidden=false;$("#plNextLabel").textContent="Up next";$("#plNext").textContent=this.nextM.name;$("#plNextC").hidden=false;drawScene($("#plNextC"),this.nextM,this.nextM.K[0],{pad:1.1,thumb:true})}
+  else if(g.kind==="move"){nw.hidden=false;$("#plNextLabel").textContent="Last exercise";$("#plNext").textContent="Closing bell";$("#plNextC").hidden=true}
+  else nw.hidden=true;
+  if(g.kind==="prep"){say(nextIntro(m,g.idx===0),!this.arrive||g.idx!==0)}
+  else{bowl(.7);this.idsDone.add(m.id);this.cuePlan=planCues(g)}},
+ frame(now){const dt=Math.min(.1,(now-this.last)/1000);this.last=now;
+  if(this.running&&this.active){const g=this.seg();const a=this.t;this.t+=dt;if(g.kind==="move")this.practiced+=dt;this.events(g,a,this.t);if(this.t>=g.dur)this.next()}
+  if(this.active){this.render();this.raf=requestAnimationFrame(n=>this.frame(n))}},
+ events(g,a,b){const cross=x=>a<x&&b>=x;
+  if(g.kind==="arrive"){if(cross(BREATH))say("Breathe in.",false,{caption:false,rate:.72});if(cross(BREATH+BIN))say("And slowly out.",false,{caption:false,rate:.72});
+   if(cross(2*BREATH))say("In.",false,{caption:false,rate:.72});if(cross(2*BREATH+BIN))say("And out.",false,{caption:false,rate:.72});return}
+  if(g.kind==="move")this.breathCue(g,b);
+  if(g.kind==="prep"){[3,2,1].forEach(k=>{if(cross(g.dur-k))tick(false)})}
+  else{(this.cuePlan||[]).forEach(c=>{if(cross(c.t))say(c.text,c.int);});if(g.m.sides&&cross(g.dur/2)){bowl(.5);$("#plPhase").textContent="Side two"}if(g.m.bellEvery)for(let k=g.m.bellEvery;k<g.dur-8;k+=g.m.bellEvery)if(cross(k))bowl(.3)}},
+ /* spoken breath coaching: every breath for the first three cycles of a movement (or side), then every other cycle */
+ breathCue(g,t){if(!settings.breath||!settings.voice)return;const m=g.m,half=m.sides&&t>=g.dur/2,lt=half?t-g.dur/2:t;
+  const side=half?1:0;if(this.breathSide!==side){this.breathSide=side;this.breathN=0;this.prevLab=null}
+  const bi=breathPhase(lt);if(bi.lab===this.prevLab)return;this.prevLab=bi.lab;
+  if(g.dur-t<3)return;const n=this.breathN,opening=n===0&&t<1;
+  if(m.tags.includes("meditation")&&n>=4)return; /* in meditation the breath is guided only at the start */
+  if(n>=6&&bi.n%2===1)return; /* after six spoken breaths, coach every other breath */
+  if(!opening&&speaking())return;if((this.cuePlan||[]).some(c=>Math.abs(c.t-t)<2.5))return;
+  const first=n<2;let word=bi.lab==="in"?(first?"Breathe in":"In"):(m.sound?`Out, ${m.sound}`:first?"Breathe out":"Out");
+  if(opening)word=`Begin${m.sides?", first side":""}. ${word}`;this.breathN++;
+  say(word,false,{caption:opening?word+".":false,rate:.72})},
+ next(){if(this.si>=this.segs.length-1){this.finish();return}this.si++;this.t=0;this.enter(false)},
+ skip(d){if(!$("#plDone").hidden)return;const g=this.seg();let idx=g.idx;
+  if(d>0){idx++;if(idx>=this.routine.items.length){this.finish();return}}
+  else if(!(g.kind==="move"&&this.t>3))idx=Math.max(0,idx-1);
+  this.si=idx*2+(this.arrive?1:0);this.t=0;this.enter(idx===0)},
+ toggle(){this.running=!this.running;$("#plPlayIcon").innerHTML=this.running?'<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>':'<path d="M8 5v14l11-7z"/>';$("#plPlay").setAttribute("aria-label",this.running?"Pause":"Resume");
+  try{this.running?speechSynthesis.resume():speechSynthesis.pause()}catch(e){}if(!this.running)$("#plPhase").textContent="Paused";else{const g=this.seg();$("#plPhase").textContent=g.kind==="prep"?"Up next":g.m.sides&&this.t>=g.dur/2?"Side two":g.m.sides?"Side one":"Practice"}},
+ finish(){this.running=false;bowl(1);setTimeout(()=>bowl(.6),2600);const mins=Math.max(1,Math.round(this.practiced/60));record(this.practiced,this.routine.name,[...this.idsDone]);this.recorded=true;
+  say("Practice complete. Stay here for one more breath. Notice how your body feels now, and how your mind feels, compared to when you began. Carry this into your day.",true);
+  $("#doneMin").textContent=mins;$("#doneSaying").innerHTML=sayingHTML(SAYINGS[this.routine.saying??Math.floor(Math.random()*SAYINGS.length)]);$("#doneStreak").textContent=streak();$("#plDone").hidden=false;$("#doneBtn").focus()},
+ close(){if(this.active&&!this.recorded)record(this.practiced,this.routine.name,[...this.idsDone]);
+  this.active=false;this.running=false;this.recorded=false;cancelAnimationFrame(this.raf);try{speechSynthesis.cancel()}catch(e){}try{this.wake&&this.wake.release()}catch(e){}this.wake=null;
+  $("#player").hidden=true;document.body.style.overflow=""},
+ syncToggles(){$("#plBreathBtn").setAttribute("aria-pressed",String(settings.breath));$("#tBreath").setAttribute("aria-pressed",String(settings.breath));$("#plVoice").setAttribute("aria-pressed",String(settings.voice));$("#plBell").setAttribute("aria-pressed",String(settings.bell));$("#tVoice").setAttribute("aria-pressed",String(settings.voice));$("#tBell").setAttribute("aria-pressed",String(settings.bell))},
+ render(){const g=this.seg();if(!g)return;const m=g.m;const c=$("#plCanvas");let pose,ghost,bi;
+  if(g.kind!=="move"){pose=m.K[0];ghost=null;bi=breathPhase(this.t)}
+  else{const half=m.sides&&this.t>=g.dur/2;const lt=half?this.t-g.dur/2:this.t;const r=animPose(m,lt,half);pose=r.p;ghost=r.nx;bi=breathPhase(lt);if(m.count)bi.count=bi.n%m.count+1}
+  drawScene(c,m,pose,{pad:.78,ghost,ring:g.kind==="move"?Math.min(1,this.t/g.dur):0});
+  $("#plTime").textContent=fmt(g.dur-this.t);
+  let done=0;for(let i=0;i<this.si;i++)done+=this.segs[i].dur;done+=this.t;$("#plRemain").textContent=fmt(this.total-done)+" remaining";
+  const bars=$("#plBar").children;for(let i=0;i<bars.length;i++){const fi=bars[i].firstChild;let f=0;if(i<g.idx)f=1;else if(i===g.idx&&g.kind==="move")f=this.t/g.dur;fi.style.width=(f*100)+"%"}
+  const orb=$("#plOrb");
+  if(g.kind==="move"){const left=g.dur-this.t,soon=left<=10,nw=$("#plNextWrap");$("#plNextIn").textContent="in "+fmt(left);nw.classList.toggle("soon",soon);
+   if(soon&&this.nextM&&!reduced)drawScene($("#plNextC"),this.nextM,animPose(this.nextM,this.t).p,{pad:1.1,thumb:true})}
+  $("#plBreath").textContent=BL[bi.lab];$("#plBreathN").textContent=bi.count?`${Math.ceil(bi.rem)} · count ${bi.count}/${m.count}`:Math.ceil(bi.rem)+"";
+  const sc=bi.lab==="in"?.55+.45*ease(bi.prog):1-.45*ease(bi.prog);orb.style.transform=`scale(${sc.toFixed(3)})`;this.glow(sc)},
+ glow(sc){const k=Math.max(0,Math.min(1,(sc-.55)/.45)),el=$("#plGlow");el.style.opacity=(.08+.92*k).toFixed(3);if(!reduced)el.style.transform=`scale(${(.72+.5*k).toFixed(3)})`}
+};
+function nextIntro(m,first){return`${first?"First":"Next"}: ${m.name}. Springs: ${springText(m,true)}. ${m.setup}`}
+function planCues(g){const m=g.m,d=g.dur,out=[];const lines=[];m.cues.forEach(c=>{lines.push(c);lines.push(presenceFor(m,player.usedPres))});
+ /* with breath coaching, "Begin" rides on the first breath word and form cues wait until the first breath cycle has been guided */
+ const coached=settings.breath&&settings.voice;if(!coached)out.push({t:.4,text:"Begin."+(m.sides?" First side.":""),int:false});
+ const t0=coached?BREATH+1:6; /* the first breath is guided before any form cue */
+ const marks=[];if(m.sides)marks.push(d/2);if(d>=35)marks.push(d-10);
+ const iv=m.cueGap||Math.max(15,Math.min(28,d/(m.cues.length+1)));let k=0;
+ const med=m.tags.includes("meditation");for(let t=t0;t<d-6&&k<lines.length*(med?1:2);t+=iv){if(marks.some(x=>Math.abs(x-t)<6))continue;out.push({t,text:lines[k%lines.length]});k++}
+ if(m.sides)out.push({t:d/2,text:"Switch sides. Take a breath as you change.",int:true});
+ const nx=player.routine.items[g.idx+1],nxName=nx&&M[nx[0]].name;
+ if(d>=35)out.push({t:d-10,text:med?"Gently let your attention return to the room.":nxName?`Ten seconds. Next, ${nxName}.`:"Last ten seconds. Stay soft, and keep breathing."});
+ else if(d>=20&&nxName)out.push({t:d-6,text:`Next, ${nxName}.`});
+ return out}
+
+/* controls */
+$("#plPlay").onclick=()=>player.toggle();
+$("#plNextBtn").onclick=()=>player.skip(1);
+$("#plPrev").onclick=()=>player.skip(-1);
+$("#plClose").onclick=()=>player.close();
+$("#doneBtn").onclick=()=>player.close();
+const tv=()=>{settings.voice=!settings.voice;saveSettings();player.syncToggles();if(!settings.voice)try{speechSynthesis.cancel()}catch(e){}};
+const tb=()=>{settings.bell=!settings.bell;saveSettings();player.syncToggles();if(settings.bell)bowl(.5)};
+const tbr=()=>{settings.breath=!settings.breath;saveSettings();player.syncToggles()};
+$("#plBreathBtn").onclick=tbr;$("#tBreath").onclick=tbr;
+$("#plVoice").onclick=tv;$("#tVoice").onclick=tv;$("#plBell").onclick=tb;$("#tBell").onclick=tb;
+document.addEventListener("keydown",e=>{
+ if(player.active){if(e.key===" "){e.preventDefault();if($("#plDone").hidden)player.toggle()}else if(e.key==="ArrowRight")player.skip(1);else if(e.key==="ArrowLeft")player.skip(-1);else if(e.key==="Escape")player.close();return}
+ if(!$("#sheet").hidden&&e.key==="Escape")closeSheet()});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&player.active&&player.running)player.toggle();if(!document.hidden&&player.active&&!player.wake)player.lockWake()});
+
+$("#cMin").addEventListener("input",e=>{cMin=+e.target.value;store.set("cMin",cMin);renderCompose()});
+$("#cGo").onclick=()=>player.start(composed);
+
+/* theme + resize */
+new MutationObserver(redrawAll).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme","class","style"]});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",redrawAll);
+let rz=0;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(redrawAll,120)});
+document.fonts&&document.fonts.ready.then(()=>{});
+
+/* install + offline */
+const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+let installEvt=null;const inst=$("#tInstall");
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;inst.hidden=false});
+addEventListener("appinstalled",()=>{installEvt=null;inst.hidden=true});
+if(!standalone&&isIOS)inst.hidden=false;
+const SHARE_ICON=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Share"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg>`;
+inst.onclick=()=>{if(installEvt){installEvt.prompt();installEvt.userChoice.finally(()=>{installEvt=null;inst.hidden=true});return}
+ openSheet(`<div class="pbody">${XBTN}<h2 id="sheetTitle">Install Daily Reformer</h2><p class="muted">Add it to your home screen and it opens full-screen and works without a connection.</p>
+ <ol class="steps"><li>Open this page in <b>Safari</b>.</li><li>Tap the Share button ${SHARE_ICON} in the toolbar.</li><li>Scroll down and tap <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol></div>`,true);$("#panel .x").onclick=closeSheet};
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){
+ /* When an update installs while the app is open, reload into it, but never mid-practice. */
+ const hadController=!!navigator.serviceWorker.controller;let reloaded=false;
+ navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!hadController||reloaded)return;const go=()=>{if(player.active)return setTimeout(go,5000);reloaded=true;location.reload()};go()});
+ navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(r=>r.update()).catch(()=>{})}
+
+readColors();player.syncToggles();syncSprings();renderLog();setupHero();renderRoutines();renderCompose();renderLib();
+window.__dm={MOVES,ROUTINES,solve,poseAt,animPose,breathPhase,quant,drawScene,player,dailyPractice,routineSecs};
+})();
+</script>
